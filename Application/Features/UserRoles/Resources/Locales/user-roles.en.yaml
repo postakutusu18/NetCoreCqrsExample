@@ -1,0 +1,2 @@
+UserRoleNotExists: "The user hasn't the operation claim."
+UserRoleAlreadyExists: "The user has the operation claim already."
