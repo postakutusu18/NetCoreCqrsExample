@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserRoles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -12,15 +13,15 @@ public partial class GetByIdUserRoleQuery
     public class GetByIdUserRoleQueryHandler
         : IRequestHandler<GetByIdUserRoleQuery,IDataResult<GetByIdUserRoleResponse>>
     {
-        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRoleRules _userRoleRules;
 
         public GetByIdUserRoleQueryHandler(
-            IUserRoleRepository userRoleRepository,
+        IUnitOfWorkAsync unitOfWorkAsync,
             UserRoleRules userRoleRules
         )
         {
-            _userRoleRepository = userRoleRepository;
+            _unitOfWorkAsync = unitOfWorkAsync;
             _userRoleRules = userRoleRules;
         }
 
@@ -29,7 +30,7 @@ public partial class GetByIdUserRoleQuery
             CancellationToken cancellationToken
         )
         {
-            UserRole? userRole = await _userRoleRepository.GetAsync(
+            UserRole? userRole = await _unitOfWorkAsync.UserRoleRepository.GetAsync(
                 predicate: b => b.Id.Equals(request.Id),
                 enableTracking: false,
                 cancellationToken: cancellationToken

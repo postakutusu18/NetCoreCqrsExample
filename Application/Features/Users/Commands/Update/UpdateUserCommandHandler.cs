@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Core.Security.Hashing;
@@ -10,18 +11,20 @@ namespace Application.Features.Users.Commands.Update;
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand,IDataResult<UpdatedUserResponse>>
 {
-    private readonly IUserRepository _userRepository;
+    //private readonly IUserDalAsync _userRepository;
     private readonly UserRules _userRules;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
 
-    public UpdateUserCommandHandler(IUserRepository userRepository, UserRules userRules)
+    public UpdateUserCommandHandler(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync)
     {
-        _userRepository = userRepository;
+        //   _userRepository = userRepository;
         _userRules = userRules;
+        _unitOfWorkAsync = unitOfWorkAsync;
     }
 
     public async Task<IDataResult<UpdatedUserResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        User? user = await _userRepository.GetAsync(
+        User? user = await _unitOfWorkAsync.UserRepository.GetAsync(
             predicate: u => u.Id.Equals(request.Id),
             enableTracking: false,
             cancellationToken: cancellationToken
@@ -37,7 +40,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand,IDataR
         );
         user!.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
-        await _userRepository.UpdateAsync(user);
+        await _unitOfWorkAsync.UserRepository.UpdateAsync(user);
+        await _unitOfWorkAsync.SaveAsync();
 
         UpdatedUserResponse response = user.Adapt<UpdatedUserResponse>();
         var result = new SuccessDataResult<UpdatedUserResponse>(response);

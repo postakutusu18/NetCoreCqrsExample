@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Application.Services.AuthService;
 using Core.Application.Results;
@@ -14,19 +15,18 @@ public partial class UpdateUserFromAuthCommand
 {
     public class UpdateUserFromAuthCommandHandler : IRequestHandler<UpdateUserFromAuthCommand, IDataResult<UpdatedUserFromAuthResponse>>
     {
-        private readonly IUserRepository _userRepository;
         private readonly UserRules _userRules;
         private readonly IAuthService _authService;
-
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         public UpdateUserFromAuthCommandHandler(
-            IUserRepository userRepository,
             UserRules userBusinessRules,
             IAuthService authService
-        )
+,
+            IUnitOfWorkAsync unitOfWorkAsync)
         {
-            _userRepository = userRepository;
             _userRules = userBusinessRules;
             _authService = authService;
+            _unitOfWorkAsync = unitOfWorkAsync;
         }
 
         public async Task<IDataResult<UpdatedUserFromAuthResponse>> Handle(
@@ -34,7 +34,7 @@ public partial class UpdateUserFromAuthCommand
             CancellationToken cancellationToken
         )
         {
-            User? user = await _userRepository.GetAsync(
+            User? user = await _unitOfWorkAsync.UserRepository.GetAsync(
                 predicate: u => u.Id.Equals(request.Id),
                 cancellationToken: cancellationToken
             );
@@ -54,7 +54,8 @@ public partial class UpdateUserFromAuthCommand
                 user!.PasswordSalt = passwordSalt;
             }
 
-            User updatedUser = await _userRepository.UpdateAsync(user!);
+            User updatedUser = await _unitOfWorkAsync.UserRepository.UpdateAsync(user!);
+            await _unitOfWorkAsync.SaveAsync();
 
             UpdatedUserFromAuthResponse response = updatedUser.Adapt<UpdatedUserFromAuthResponse>();
             response.AccessToken = await _authService.CreateAccessToken(user!);

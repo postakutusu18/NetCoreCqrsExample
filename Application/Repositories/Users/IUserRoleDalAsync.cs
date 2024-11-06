@@ -3,7 +3,7 @@ using Domains.Users;
 
 namespace Application.Repositories.Users;
 
-public interface IUserRoleRepository : IAsyncRepository<UserRole, Guid>, IRepository<UserRole, Guid>
+public interface IUserRoleDalAsync : IAsyncRepository<UserRole, Guid>
 {
     Task<IList<Role>> GetOperationClaimsByUserIdAsync(Guid userId);
 }

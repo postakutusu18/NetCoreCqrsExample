@@ -1,4 +1,5 @@
 ﻿using Application.Features.Roles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -7,17 +8,17 @@ using MediatR;
 
 namespace Application.Features.Roles.Commands.Update;
 
-public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand,IDataResult<UpdatedRoleResponse>>
+public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, IDataResult<UpdatedRoleResponse>>
 {
-    private readonly IRoleRepository _roleRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly RoleRules _roleRules;
 
     public UpdateRoleCommandHandler(
-        IRoleRepository roleRepository,
-        RoleRules roleRules
+    IUnitOfWorkAsync unitOfWorkAsync,
+    RoleRules roleRules
     )
     {
-        _roleRepository = roleRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _roleRules = roleRules;
     }
 
@@ -26,7 +27,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand,IDataR
         CancellationToken cancellationToken
     )
     {
-        Role? role = await _roleRepository.GetAsync(
+        Role? role = await _unitOfWorkAsync.RoleRepository.GetAsync(
             predicate: oc => oc.Id == request.Id,
             cancellationToken: cancellationToken
         );
@@ -34,7 +35,8 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand,IDataR
         await _roleRules.RoleNameShouldNotExistWhenUpdating(request.Id, request.Name);
         Role mappedRole = request.Adapt<Role>();
 
-        Role updatedRole = await _roleRepository.UpdateAsync(mappedRole);
+        Role updatedRole = await _unitOfWorkAsync.RoleRepository.UpdateAsync(mappedRole);
+        await _unitOfWorkAsync.SaveAsync();
 
         UpdatedRoleResponse response = updatedRole.Adapt<UpdatedRoleResponse>();
         var result = new SuccessDataResult<UpdatedRoleResponse>(response);

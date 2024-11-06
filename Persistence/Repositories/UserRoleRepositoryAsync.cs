@@ -6,11 +6,11 @@ using Persistence.Context;
 
 namespace Persistence.Repositories;
 
-public class UserRoleRepository
-    : EfRepositoryBase<UserRole, Guid, BaseDbContext>,
-        IUserRoleRepository
+public class UserRoleRepositoryAsync
+    : EfAsyncRepositoryBase<UserRole, Guid>,
+        IUserRoleDalAsync
 {
-    public UserRoleRepository(BaseDbContext context)
+    public UserRoleRepositoryAsync(DbContext context)
         : base(context) { }
 
     public async Task<IList<Role>> GetOperationClaimsByUserIdAsync(Guid userId)

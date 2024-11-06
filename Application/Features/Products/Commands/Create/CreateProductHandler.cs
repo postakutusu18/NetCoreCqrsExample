@@ -1,4 +1,5 @@
 ﻿using Application.Features.Products.Rules;
+using Application.Repositories;
 using Core.Application.Results;
 using Domains;
 using Mapster;
@@ -9,13 +10,13 @@ namespace Application.Features.Products.Commands.Create;
 
 public class CreateProductHandler : IRequestHandler<CreateProductCommand,IDataResult<CreatedProductResponse>>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ProductBusinessRules _productBusinessRules;
     //private readonly IMailService _mailService;
 
-    public CreateProductHandler(IProductRepository productRepository, ProductBusinessRules productBusinessRules)//, IMailService mailService
+    public CreateProductHandler(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productBusinessRules)//, IMailService mailService
     {
-        _productRepository = productRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _productBusinessRules = productBusinessRules;
         //_mailService = mailService;
     }
@@ -24,7 +25,8 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand,IDataRe
     {
         await _productBusinessRules.ProductNameCanNotBeDuplicatedWhenInserted(request.Name);
         var product = request.Adapt<Product>();
-        Product createdProduct = await _productRepository.AddAsync(product);
+        Product createdProduct = await _unitOfWorkAsync.ProductRepository.AddAsync(product);
+        await _unitOfWorkAsync.SaveAsync();
         CreatedProductResponse createdBrandResponse = createdProduct.Adapt<CreatedProductResponse>();
 
         var toEmailList = new List<MailboxAddress> { new(name: "Ahmet Çetinkaya", address: "postakutusu1818@gmail.com") };

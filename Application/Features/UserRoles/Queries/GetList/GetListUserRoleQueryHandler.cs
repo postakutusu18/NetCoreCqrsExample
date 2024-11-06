@@ -1,4 +1,5 @@
-﻿using Application.Repositories.Users;
+﻿using Application.Repositories;
+using Application.Repositories.Users;
 using Core.Application.Responses;
 using Core.Application.Results;
 using Core.Persistance.Paging;
@@ -13,11 +14,11 @@ public partial class GetListUserRoleQuery
     public class GetListUserRoleQueryHandler
         : IRequestHandler<GetListUserRoleQuery,IDataResult<GetListResponse<GetListUserRoleListResponse>>>
     {
-        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
 
-        public GetListUserRoleQueryHandler(IUserRoleRepository userRoleRepository)
+        public GetListUserRoleQueryHandler(IUnitOfWorkAsync unitOfWorkAsync)
         {
-            _userRoleRepository = userRoleRepository;
+            _unitOfWorkAsync = unitOfWorkAsync;
         }
 
         public async Task<IDataResult<GetListResponse<GetListUserRoleListResponse>>> Handle(
@@ -25,7 +26,7 @@ public partial class GetListUserRoleQuery
             CancellationToken cancellationToken
         )
         {
-            IPaginate<UserRole> userRoles = await _userRoleRepository.GetListAsync(
+            IPaginate<UserRole> userRoles = await _unitOfWorkAsync.UserRoleRepository.GetListAsync(
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 enableTracking: false

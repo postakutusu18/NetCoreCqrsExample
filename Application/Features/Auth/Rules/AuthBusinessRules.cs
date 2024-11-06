@@ -1,4 +1,5 @@
 ﻿using Application.Features.Auth.Constants;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions.Types;
@@ -12,12 +13,12 @@ namespace Application.Features.Auth.Rules;
 
 public class AuthBusinessRules : BaseBusinessRules
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ILocalizationService _localizationService;
 
-    public AuthBusinessRules(IUserRepository userRepository, ILocalizationService localizationService)
+    public AuthBusinessRules(IUnitOfWorkAsync unitOfWorkAsync, ILocalizationService localizationService)
     {
-        _userRepository = userRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _localizationService = localizationService;
     }
 
@@ -77,7 +78,7 @@ public class AuthBusinessRules : BaseBusinessRules
 
     public async Task UserEmailShouldBeNotExists(string email)
     {
-        bool doesExists = await _userRepository.AnyAsync(predicate: u => u.Email == email);
+        bool doesExists = await _unitOfWorkAsync.UserRepository.AnyAsync(predicate: u => u.Email == email);
         if (doesExists)
             await throwBusinessException(AuthMessages.UserMailAlreadyExists);
     }

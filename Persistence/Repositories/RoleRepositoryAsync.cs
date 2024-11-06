@@ -1,12 +1,13 @@
 ﻿using Application.Repositories.Users;
 using Core.Persistance.Repositories;
 using Domains.Users;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 
 namespace Persistence.Repositories;
 
-public class RoleRepository : EfRepositoryBase<Role, int, BaseDbContext>, IRoleRepository
+public class RoleRepositoryAsync : EfAsyncRepositoryBase<Role, int>, IRoleDalAsync
 {
-    public RoleRepository(BaseDbContext context)
+    public RoleRepositoryAsync(DbContext context)
         : base(context) { }
 }

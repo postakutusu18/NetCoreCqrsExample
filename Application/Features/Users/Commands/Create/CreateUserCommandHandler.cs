@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Core.Security.Hashing;
@@ -10,13 +11,13 @@ namespace Application.Features.Users.Commands.Create;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand,IDataResult<CreatedUserResponse>>
 {
-    private readonly IUserRepository _userRepository;
     private readonly UserRules _userRules;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
 
-    public CreateUserCommandHandler(IUserRepository userRepository, UserRules userRules)
+    public CreateUserCommandHandler(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync)
     {
-        _userRepository = userRepository;
         _userRules = userRules;
+        _unitOfWorkAsync = unitOfWorkAsync;
     }
 
     public async Task<IDataResult<CreatedUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -31,7 +32,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand,IDataR
         );
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
-        User createdUser = await _userRepository.AddAsync(user);
+        User createdUser = await _unitOfWorkAsync.UserRepository.AddAsync(user);
+        await _unitOfWorkAsync.SaveAsync();
 
         CreatedUserResponse response = createdUser.Adapt<CreatedUserResponse>();
         var result = new SuccessDataResult<CreatedUserResponse>(response);

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Products.Rules;
+using Application.Repositories;
 using Core.Application.Responses;
 using Core.Application.Results;
 using Domains;
@@ -9,20 +10,21 @@ namespace Application.Features.Products.Commands.Delete;
 
 public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, IDataResult<DeletedProductResponse>>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ProductBusinessRules _productRules;
 
-    public DeleteProductHandler(IProductRepository productRepository, ProductBusinessRules productRules)
+    public DeleteProductHandler(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productRules)
     {
-        _productRepository = productRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _productRules = productRules;
     }
 
     public async Task<IDataResult<DeletedProductResponse>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
-        Product? product = await _productRepository.GetAsync(predicate: p => p.Id == request.Id, cancellationToken: cancellationToken);
+        Product? product = await _unitOfWorkAsync.ProductRepository.GetAsync(predicate: p => p.Id == request.Id, cancellationToken: cancellationToken);
         await _productRules.ProductShouldExistWhenSelected(product);
-        await _productRepository.DeleteAsync(entity: product!);
+        await _unitOfWorkAsync.ProductRepository.DeleteAsync(entity: product!);
+        await _unitOfWorkAsync.SaveAsync();
         var result  = product.Adapt<DeletedProductResponse>();
         return new SuccessDataResult<DeletedProductResponse>(result);
 

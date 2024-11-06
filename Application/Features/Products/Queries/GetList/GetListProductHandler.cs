@@ -1,4 +1,5 @@
 ﻿using Application.Features.Products.Rules;
+using Application.Repositories;
 using Core.Application.Responses;
 using Core.Application.Results;
 using Core.Persistance.Paging;
@@ -10,17 +11,17 @@ namespace Application.Features.Products.Queries.GetList;
 
 public class GetListProductHandler : IRequestHandler<GetListProductQuery, IDataResult<GetListResponse<GetListProductResponse>>>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ProductBusinessRules _productBusinessRules;
-    public GetListProductHandler(IProductRepository productRepository, ProductBusinessRules productBusinessRules)
+    public GetListProductHandler(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productBusinessRules)
     {
-        _productRepository = productRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _productBusinessRules = productBusinessRules;
     }
 
     public async Task<IDataResult<GetListResponse<GetListProductResponse>>> Handle(GetListProductQuery request, CancellationToken cancellationToken)
     {
-        IPaginate<Product> products = await _productRepository.GetListAsync(
+        IPaginate<Product> products = await _unitOfWorkAsync.ProductRepository.GetListAsync(
                index: request.PageRequest.PageIndex,
                size: request.PageRequest.PageSize
            );

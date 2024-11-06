@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserRoles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -10,15 +11,15 @@ namespace Application.Features.UserRoles.Commands.Delete;
 public class DeleteUserRoleCommandHandler
      : IRequestHandler<DeleteUserRoleCommand,IDataResult<DeletedUserRoleResponse>>
 {
-    private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly UserRoleRules _userRoleRules;
 
     public DeleteUserRoleCommandHandler(
-        IUserRoleRepository userRoleRepository,
+        IUnitOfWorkAsync unitOfWorkAsync,
         UserRoleRules userRoleRules
     )
     {
-        _userRoleRepository = userRoleRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _userRoleRules = userRoleRules;
     }
 
@@ -27,13 +28,14 @@ public class DeleteUserRoleCommandHandler
         CancellationToken cancellationToken
     )
     {
-        UserRole? userRole = await _userRoleRepository.GetAsync(
+        UserRole? userRole = await _unitOfWorkAsync.UserRoleRepository.GetAsync(
             predicate: uoc => uoc.Id.Equals(request.Id),
             cancellationToken: cancellationToken
         );
         await _userRoleRules.UserRoleShouldExistWhenSelected(userRole);
 
-        await _userRoleRepository.DeleteAsync(userRole!);
+        await _unitOfWorkAsync.UserRoleRepository.DeleteAsync(userRole!);
+        await _unitOfWorkAsync.SaveAsync();
 
         DeletedUserRoleResponse response = userRole.Adapt<DeletedUserRoleResponse>();
         var result = new SuccessDataResult<DeletedUserRoleResponse>(response);

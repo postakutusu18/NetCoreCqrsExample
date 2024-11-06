@@ -1,4 +1,5 @@
 ﻿using Application.Features.Roles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -9,15 +10,15 @@ namespace Application.Features.Roles.Queries.GetById;
 
 public class GetByIdRoleQueryHandler : IRequestHandler<GetByIdRoleQuery, IDataResult<GetByIdRoleResponse>>
 {
-    private readonly IRoleRepository _roleRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly RoleRules _roleRules;
 
     public GetByIdRoleQueryHandler(
-        IRoleRepository roleRepository,
+        IUnitOfWorkAsync unitOfWorkAsync,
         RoleRules roleRules
     )
     {
-        _roleRepository = roleRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _roleRules = roleRules;
     }
 
@@ -26,7 +27,7 @@ public class GetByIdRoleQueryHandler : IRequestHandler<GetByIdRoleQuery, IDataRe
         CancellationToken cancellationToken
     )
     {
-        Role? role = await _roleRepository.GetAsync(
+        Role? role = await _unitOfWorkAsync.RoleRepository.GetAsync(
             predicate: b => b.Id == request.Id,
             cancellationToken: cancellationToken,
             enableTracking: false

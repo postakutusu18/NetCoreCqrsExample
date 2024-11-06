@@ -1,4 +1,5 @@
-﻿using Application.Repositories.Users;
+﻿using Application.Repositories;
+using Application.Repositories.Users;
 using Core.Security.Entities;
 using Core.Security.Jwt;
 using Domains.Users;
@@ -10,31 +11,34 @@ namespace Application.Services.AuthService;
 
 public class AuthManager : IAuthService
 {
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
+    //private readonly IRefreshTokenDalAsync _refreshTokenRepository;
     private readonly ITokenHelper<Guid, int, Guid> _tokenHelper;
     private readonly TokenOptions _tokenOptions;
-    private readonly IUserRoleRepository _userRoleRepository;
+    //private readonly IUserRoleDalAsync _userRoleRepository;
+    private readonly IUnitOfWorkAsync _unitOfWork;
 
     public AuthManager(
-        IUserRoleRepository userRoleRepository,
-        IRefreshTokenRepository refreshTokenRepository,
+        //   IUserRoleDalAsync userRoleRepository,
+        // IRefreshTokenDalAsync refreshTokenRepository,
         ITokenHelper<Guid, int, Guid> tokenHelper,
         IConfiguration configuration
-    )
+,
+        IUnitOfWorkAsync unitOfWork)
     {
-        _userRoleRepository = userRoleRepository;
-        _refreshTokenRepository = refreshTokenRepository;
+        //_userRoleRepository = userRoleRepository;
+        //_refreshTokenRepository = refreshTokenRepository;
         _tokenHelper = tokenHelper;
 
         const string tokenOptionsConfigurationSection = "TokenOptions";
         _tokenOptions =
             configuration.GetSection(tokenOptionsConfigurationSection).Get<TokenOptions>()
             ?? throw new NullReferenceException($"\"{tokenOptionsConfigurationSection}\" section cannot found in configuration");
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<AccessToken> CreateAccessToken(User user)
     {
-        IList<Role> operationClaims = await _userRoleRepository.GetOperationClaimsByUserIdAsync(user.Id);
+        IList<Role> operationClaims = await _unitOfWork.UserRoleRepository.GetOperationClaimsByUserIdAsync(user.Id);
         AccessToken accessToken = _tokenHelper.CreateToken(
             user,
             operationClaims.Select(op => (RoleBase<int>)op).ToImmutableList()
@@ -44,22 +48,22 @@ public class AuthManager : IAuthService
 
     public async Task<RefreshToken> AddRefreshToken(RefreshToken refreshToken)
     {
-        RefreshToken addedRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
+        RefreshToken addedRefreshToken = await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken);
         return addedRefreshToken;
     }
 
     public async Task DeleteOldRefreshTokens(Guid userId)
     {
-        List<RefreshToken> refreshTokens = await _refreshTokenRepository.GetOldRefreshTokensAsync(
+        List<RefreshToken> refreshTokens = await _unitOfWork.RefreshTokenRepository.GetOldRefreshTokensAsync(
             userId,
             _tokenOptions.RefreshTokenTTL
         );
-        await _refreshTokenRepository.DeleteRangeAsync(refreshTokens);
+        await _unitOfWork.RefreshTokenRepository.DeleteRangeAsync(refreshTokens);
     }
 
     public async Task<RefreshToken?> GetRefreshTokenByToken(string token)
     {
-        RefreshToken? refreshToken = await _refreshTokenRepository.GetAsync(predicate: r => r.Token == token);
+        RefreshToken? refreshToken = await _unitOfWork.RefreshTokenRepository.GetAsync(predicate: r => r.Token == token);
         return refreshToken;
     }
 
@@ -74,7 +78,7 @@ public class AuthManager : IAuthService
         refreshToken.RevokedByIp = ipAddress;
         refreshToken.ReasonRevoked = reason;
         refreshToken.ReplacedByToken = replacedByToken;
-        await _refreshTokenRepository.UpdateAsync(refreshToken);
+        await _unitOfWork.RefreshTokenRepository.UpdateAsync(refreshToken);
     }
 
     public async Task<RefreshToken> RotateRefreshToken(User user, RefreshToken refreshToken, string ipAddress)
@@ -90,7 +94,7 @@ public class AuthManager : IAuthService
 
     public async Task RevokeDescendantRefreshTokens(RefreshToken refreshToken, string ipAddress, string reason)
     {
-        RefreshToken? childToken = await _refreshTokenRepository.GetAsync(predicate: r =>
+        RefreshToken? childToken = await _unitOfWork.RefreshTokenRepository.GetAsync(predicate: r =>
             r.Token == refreshToken.ReplacedByToken
         );
 

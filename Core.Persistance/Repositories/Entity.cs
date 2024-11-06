@@ -10,6 +10,10 @@ public abstract class Entity<TId> : IEntity<TId>, IEntityTimestamps
 
     public DateTime? DeletedDate { get; set; }
 
+    public bool? IsActive { get; set; }
+    public bool? IsDelete { get; set; }
+    public short OrderNo { get; set; }
+
     public Entity()
     {
         Id = default(TId);

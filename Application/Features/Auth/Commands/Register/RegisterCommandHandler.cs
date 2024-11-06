@@ -1,4 +1,5 @@
 ﻿using Application.Features.Auth.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Application.Services.AuthService;
 using Core.Security.Hashing;
@@ -12,17 +13,17 @@ public partial class RegisterCommand
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredResponse>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
 
         public RegisterCommandHandler(
-            IUserRepository userRepository,
+            IUnitOfWorkAsync unitOfWorkAsync,
             IAuthService authService,
             AuthBusinessRules authBusinessRules
         )
         {
-            _userRepository = userRepository;
+            _unitOfWorkAsync = unitOfWorkAsync;
             _authService = authService;
             _authBusinessRules = authBusinessRules;
         }
@@ -43,7 +44,7 @@ public partial class RegisterCommand
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                 };
-            User createdUser = await _userRepository.AddAsync(newUser);
+            User createdUser = await _unitOfWorkAsync.UserRepository.AddAsync(newUser);
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
 

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -11,18 +12,18 @@ public partial class GetByIdUserQuery
 {
     public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery,IDataResult<GetByIdUserResponse>>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRules _userBusinessRules;
 
-        public GetByIdUserQueryHandler(IUserRepository userRepository, UserRules userBusinessRules)
+        public GetByIdUserQueryHandler(IUnitOfWorkAsync unitOfWorkAsync, UserRules userBusinessRules)
         {
-            _userRepository = userRepository;
+            _unitOfWorkAsync = unitOfWorkAsync;
             _userBusinessRules = userBusinessRules;
         }
 
         public async Task<IDataResult<GetByIdUserResponse>> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetAsync(
+            User? user = await _unitOfWorkAsync.UserRepository.GetAsync(
                 predicate: b => b.Id.Equals(request.Id),
                 enableTracking: false,
                 cancellationToken: cancellationToken

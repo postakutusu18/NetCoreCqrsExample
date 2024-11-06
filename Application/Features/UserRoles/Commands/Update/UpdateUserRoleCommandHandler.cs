@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserRoles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -13,15 +14,15 @@ public partial class UpdateUserRoleCommand
     public class UpdateUserRoleCommandHandler
         : IRequestHandler<UpdateUserRoleCommand,IDataResult<UpdatedUserRoleResponse>>
     {
-        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRoleRules _userRoleRules;
 
         public UpdateUserRoleCommandHandler(
-            IUserRoleRepository userRoleRepository,
+        IUnitOfWorkAsync unitOfWorkAsync,
             UserRoleRules userRoleRules
         )
         {
-            _userRoleRepository = userRoleRepository;
+            _unitOfWorkAsync = unitOfWorkAsync;
             _userRoleRules = userRoleRules;
         }
 
@@ -30,7 +31,7 @@ public partial class UpdateUserRoleCommand
             CancellationToken cancellationToken
         )
         {
-            UserRole? userRole = await _userRoleRepository.GetAsync(
+            UserRole? userRole = await _unitOfWorkAsync.UserRoleRepository.GetAsync(
                 predicate: uoc => uoc.Id.Equals(request.Id),
                 enableTracking: false,
                 cancellationToken: cancellationToken
@@ -43,9 +44,10 @@ public partial class UpdateUserRoleCommand
             );
             UserRole mappedUserRole = request.Adapt<UserRole>();
 
-            UserRole updatedUserRole = await _userRoleRepository.UpdateAsync(
+            UserRole updatedUserRole = await _unitOfWorkAsync.UserRoleRepository.UpdateAsync(
                 mappedUserRole
             );
+            await _unitOfWorkAsync.SaveAsync();
 
             var updatedUserRoleDto = updatedUserRole.Adapt<UpdatedUserRoleResponse>();
             var result = new SuccessDataResult<UpdatedUserRoleResponse>(updatedUserRoleDto);

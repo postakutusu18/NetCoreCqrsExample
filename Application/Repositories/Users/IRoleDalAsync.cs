@@ -3,4 +3,4 @@ using Domains.Users;
 
 namespace Application.Repositories.Users;
 
-public interface IUserRepository : IAsyncRepository<User, Guid>, IRepository<User, Guid> { }
+public interface IRoleDalAsync : IAsyncRepository<Role, int> { }

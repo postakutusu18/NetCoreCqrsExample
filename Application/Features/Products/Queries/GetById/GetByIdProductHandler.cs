@@ -1,4 +1,5 @@
 ﻿using Application.Features.Products.Rules;
+using Application.Repositories;
 using Core.Application.Results;
 using Domains;
 using Mapster;
@@ -8,17 +9,17 @@ namespace Application.Features.Products.Queries.GetById;
 
 public class GetByIdProductHandler : IRequestHandler<GetByIdProductQuery,IDataResult<GetByIdProductResponse>>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ProductBusinessRules _productBusinessRules;
-    public GetByIdProductHandler(IProductRepository productRepository, ProductBusinessRules productBusinessRules)
+    public GetByIdProductHandler(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productBusinessRules)
     {
-        _productRepository = productRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _productBusinessRules = productBusinessRules;
     }
 
     public async Task<IDataResult<GetByIdProductResponse>> Handle(GetByIdProductQuery request, CancellationToken cancellationToken)
     {
-        Product? product = await _productRepository.GetAsync(x => x.Id == request.Id);
+        Product? product = await _unitOfWorkAsync.ProductRepository.GetAsync(x => x.Id == request.Id);
         _productBusinessRules.ProductShouldExistWhenSelected(product);
 
         GetByIdProductResponse? response = product.Adapt<GetByIdProductResponse>();

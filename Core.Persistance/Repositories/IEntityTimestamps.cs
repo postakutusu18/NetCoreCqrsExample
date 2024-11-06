@@ -7,4 +7,6 @@ public interface IEntityTimestamps
     DateTime? UpdatedDate { get; set; }
 
     DateTime? DeletedDate { get; set; }
+    public bool? IsDelete { get; set; }
+
 }

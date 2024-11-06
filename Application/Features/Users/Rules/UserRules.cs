@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Constants;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Exceptions.Types;
@@ -11,13 +12,14 @@ namespace Application.Features.Users.Rules;
 
 public class UserRules : BaseBusinessRules
 {
-    private readonly IUserRepository _userRepository;
+    //private readonly IUserDalAsync _userRepository;
     private readonly ILocalizationService _localizationService;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
 
-    public UserRules(IUserRepository userRepository, ILocalizationService localizationService)
+    public UserRules(ILocalizationService localizationService, IUnitOfWorkAsync unitOfWorkAsync)
     {
-        _userRepository = userRepository;
         _localizationService = localizationService;
+        _unitOfWorkAsync = unitOfWorkAsync;
     }
 
     private async Task throwBusinessException(string messageKey)
@@ -34,7 +36,7 @@ public class UserRules : BaseBusinessRules
 
     public async Task UserIdShouldBeExistsWhenSelected(Guid id)
     {
-        bool doesExist = await _userRepository.AnyAsync(predicate: u => u.Id == id);
+        bool doesExist = await _unitOfWorkAsync.UserRepository.AnyAsync(predicate: u => u.Id == id);
         if (doesExist)
             await throwBusinessException(UsersMessages.UserDontExists);
     }
@@ -47,14 +49,14 @@ public class UserRules : BaseBusinessRules
 
     public async Task UserEmailShouldNotExistsWhenInsert(string email)
     {
-        bool doesExists = await _userRepository.AnyAsync(predicate: u => u.Email == email);
+        bool doesExists = await _unitOfWorkAsync.UserRepository.AnyAsync(predicate: u => u.Email == email);
         if (doesExists)
             await throwBusinessException(UsersMessages.UserMailAlreadyExists);
     }
 
     public async Task UserEmailShouldNotExistsWhenUpdate(Guid id, string email)
     {
-        bool doesExists = await _userRepository.AnyAsync(predicate: u => u.Id != id && u.Email == email);
+        bool doesExists = await _unitOfWorkAsync.UserRepository.AnyAsync(predicate: u => u.Id != id && u.Email == email);
         if (doesExists)
             await throwBusinessException(UsersMessages.UserMailAlreadyExists);
     }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserRoles.Rules;
+using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Application.Results;
 using Domains.Users;
@@ -9,15 +10,15 @@ namespace Application.Features.UserRoles.Commands.Create;
 public class CreateUserRoleCommandHandler
        : IRequestHandler<CreateUserRoleCommand, IDataResult<CreatedUserRoleResponse>>
 {
-    private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly UserRoleRules _userRoleRules;
 
     public CreateUserRoleCommandHandler(
-        IUserRoleRepository userRoleRepository,
+        IUnitOfWorkAsync unitOfWorkAsync,
         UserRoleRules userRoleRules
     )
     {
-        _userRoleRepository = userRoleRepository;
+        _unitOfWorkAsync = unitOfWorkAsync;
         _userRoleRules = userRoleRules;
     }
 
@@ -32,7 +33,8 @@ public class CreateUserRoleCommandHandler
         );
         UserRole mappedUserRole = request.Adapt<UserRole>();
 
-        UserRole createdUserRole = await _userRoleRepository.AddAsync(mappedUserRole);
+        UserRole createdUserRole = await _unitOfWorkAsync.UserRoleRepository.AddAsync(mappedUserRole);
+        await _unitOfWorkAsync.SaveAsync();
 
         var createdUserRoleDto = createdUserRole.Adapt<CreatedUserRoleResponse>();
         var result = new SuccessDataResult<CreatedUserRoleResponse>( createdUserRoleDto);
