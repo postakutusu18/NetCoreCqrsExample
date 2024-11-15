@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.UserRoles.Queries.GetById;
+﻿namespace Application.Features.UserFeatures.UserRoles.Queries.GetById;
 
 public class GetByIdUserRoleResponse : IResponse
 {

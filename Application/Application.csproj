@@ -24,13 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Examples\ExampEntities\Commands\Update\" />
-    <Folder Include="Features\Examples\ExampEntities\Commands\Delete\" />
-    <Folder Include="Features\Examples\ExampEntities\Commands\Create\" />
-    <Folder Include="Features\Examples\ExampEntities\Queries\" />
-    <Folder Include="Features\Examples\ExampEntities\Resources\" />
-    <Folder Include="Features\Examples\ExampEntities\Rules\" />
-    <Folder Include="Features\Examples\ExampEntities\Constants\" />
+    <Folder Include="Features\Examples\ExampleEntities\Resources\Locales\" />
   </ItemGroup>
 
 </Project>

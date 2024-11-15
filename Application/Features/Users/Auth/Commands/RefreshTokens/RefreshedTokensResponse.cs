@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-using Core.Security.Jwt;
-using Domains.Users;
+﻿using Core.Security.Jwt;
 
 namespace Application.Features.UserFeatures.Auth.Commands.RefreshTokens;
 

@@ -1,6 +1,4 @@
-﻿using Core.Persistance.Paging;
-using Domains.Users;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Application.Services.UserService;

@@ -1,9 +1,5 @@
-﻿using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Security.Entities;
+﻿using Core.Security.Entities;
 using Core.Security.Jwt;
-using Domains.Users;
-using Mapster;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Immutable;
 

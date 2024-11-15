@@ -1,11 +1,5 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Rules;
-using Core.CrossCuttingConcerns.Exceptions.Types;
-using Core.Localization;
 using Core.Security.Hashing;
-using Domains.Users;
 
 namespace Application.Features.UserFeatures.Users.Rules;
 

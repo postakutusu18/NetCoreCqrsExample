@@ -1,5 +1,4 @@
 ﻿using Core.Security.Jwt;
-using Domains.Users;
 
 namespace Application.Services.AuthService;
 

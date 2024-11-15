@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Roles.Commands.Update;
+﻿namespace Application.Features.UserFeatures.Roles.Commands.Update;
 
 public class UpdatedRoleResponse : IResponse
 {

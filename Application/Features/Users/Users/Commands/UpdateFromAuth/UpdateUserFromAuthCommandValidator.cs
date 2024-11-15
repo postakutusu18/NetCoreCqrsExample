@@ -1,5 +1,4 @@
 ﻿using Application.Features.Users.Commands.UpdateFromAuth;
-using FluentValidation;
 using System.Text.RegularExpressions;
 
 namespace Application.Features.UserFeatures.Users.Commands.UpdateFromAuth;

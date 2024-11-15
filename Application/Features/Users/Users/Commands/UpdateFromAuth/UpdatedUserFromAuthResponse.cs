@@ -1,5 +1,4 @@
-﻿using Core.Application.Responses;
-using Core.Security.Jwt;
+﻿using Core.Security.Jwt;
 
 namespace Application.Features.UserFeatures.Users.Commands.UpdateFromAuth;
 public class UpdatedUserFromAuthResponse : IResponse

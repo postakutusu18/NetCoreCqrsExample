@@ -2,11 +2,7 @@
 using Application.Features.UserFeatures.Auth.Rules;
 using Application.Services.AuthService;
 using Application.Services.UserService;
-using Core.Application.Responses;
-using Core.Application.Results;
 using Core.Security.Jwt;
-using Domains.Users;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.Login;
 

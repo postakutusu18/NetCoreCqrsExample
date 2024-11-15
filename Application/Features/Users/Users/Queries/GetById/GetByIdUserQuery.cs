@@ -1,8 +1,5 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
 using Application.Features.UserFeatures.Users.Queries.GetById;
-using Core.Application.Pipelines.Authorization;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.Users.Queries.GetById;
 

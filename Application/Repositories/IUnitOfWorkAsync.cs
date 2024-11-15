@@ -1,5 +1,4 @@
-﻿using Application.Repositories.Users;
-
+﻿
 namespace Application.Repositories;
 
 public interface IUnitOfWorkAsync : IAsyncDisposable
@@ -14,5 +13,6 @@ public interface IUnitOfWorkAsync : IAsyncDisposable
     //IAdminMenuRoleDalAsync AdminMenuRoleDalAsync { get; }
     //IBlackListIpDalAsync BlackListIpDalAsync { get; }
     IProductDalAsync ProductRepository { get; }
+    IExampleEntityDalAsync ExampleEntityRepository { get; }
     Task<int> SaveAsync();
 }

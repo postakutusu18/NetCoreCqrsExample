@@ -1,8 +1,4 @@
 ﻿using Application.Features.UserFeatures.Users.Rules;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Persistance.Paging;
-using Domains.Users;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 

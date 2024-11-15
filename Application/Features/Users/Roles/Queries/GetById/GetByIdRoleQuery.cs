@@ -1,7 +1,4 @@
 ﻿using Application.Features.UserFeatures.Roles.Constants;
-using Core.Application.Pipelines.Authorization;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.UserFeatures.Roles.Queries.GetById;
 

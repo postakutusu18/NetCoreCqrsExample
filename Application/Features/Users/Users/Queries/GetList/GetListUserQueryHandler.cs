@@ -1,12 +1,4 @@
 ﻿using Application.Features.UserFeatures.Users.Queries.GetList;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Responses;
-using Core.Application.Results;
-using Core.Persistance.Paging;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.Users.Queries.GetList;
 

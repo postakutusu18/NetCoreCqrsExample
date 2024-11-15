@@ -1,12 +1,4 @@
-﻿using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Responses;
-using Core.Application.Results;
-using Core.Persistance.Paging;
-using Domains.Users;
-using Mapster;
-using MediatR;
-namespace Application.Features.UserFeatures.Roles.Queries.GetList;
+﻿namespace Application.Features.UserFeatures.Roles.Queries.GetList;
 
 public class GetListRoleQueryHandler
         : IRequestHandler<GetListRoleQuery, IDataResult<GetListResponse<GetListRoleResponse>>>

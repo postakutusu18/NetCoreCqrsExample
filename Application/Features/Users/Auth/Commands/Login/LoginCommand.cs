@@ -1,8 +1,5 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.Login;
 using Core.Application.Dtos;
-using Core.Application.Responses;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.Login;
 

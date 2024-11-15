@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Auth.Commands.RevokeToken;
+﻿namespace Application.Features.UserFeatures.Auth.Commands.RevokeToken;
 
 public class RevokedTokenResponse : IResponse
 {

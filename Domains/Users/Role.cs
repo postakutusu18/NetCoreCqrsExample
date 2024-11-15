@@ -1,5 +1,4 @@
-﻿using Core.Security.Entities;
-
+﻿
 namespace Domains.Users;
 
 public class Role : RoleBase<int>

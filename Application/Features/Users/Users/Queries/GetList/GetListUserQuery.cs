@@ -1,10 +1,5 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
 using Application.Features.UserFeatures.Users.Queries.GetList;
-using Core.Application.Pipelines.Authorization;
-using Core.Application.Requests;
-using Core.Application.Responses;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.Users.Queries.GetList;
 

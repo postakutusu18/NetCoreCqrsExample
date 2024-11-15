@@ -1,13 +1,4 @@
-﻿using Application.Features.Example.Products.Rules;
-using Application.Repositories;
-using Core.Application.Responses;
-using Core.Application.Results;
-using Domains.Examples;
-using Domains.Users;
-using Mapster;
-using MediatR;
-
-namespace Application.Features.Example.Products.Commands.Update;
+﻿namespace Application.Features.Example.Products.Commands.Update;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, IDataResult<UpdatedProductResponse>>
 {

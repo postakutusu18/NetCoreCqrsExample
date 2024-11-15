@@ -1,7 +1,5 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.RevokeToken;
 using Application.Features.UserFeatures.Auth.Constants;
-using Core.Application.Pipelines.Authorization;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.RevokeToken;
 

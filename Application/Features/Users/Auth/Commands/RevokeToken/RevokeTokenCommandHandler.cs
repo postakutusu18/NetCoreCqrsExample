@@ -1,9 +1,6 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.RevokeToken;
 using Application.Features.UserFeatures.Auth.Rules;
 using Application.Services.AuthService;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.RevokeToken;
 

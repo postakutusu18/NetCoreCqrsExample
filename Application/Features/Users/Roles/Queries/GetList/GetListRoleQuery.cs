@@ -1,9 +1,4 @@
 ﻿using Application.Features.UserFeatures.Roles.Constants;
-using Core.Application.Pipelines.Authorization;
-using Core.Application.Requests;
-using Core.Application.Responses;
-using Core.Application.Results;
-using MediatR;
 namespace Application.Features.UserFeatures.Roles.Queries.GetList;
 
 public class GetListRoleQuery : IRequest<IDataResult<GetListResponse<GetListRoleResponse>>>, ISecuredRequest

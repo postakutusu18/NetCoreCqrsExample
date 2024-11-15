@@ -1,6 +1,4 @@
-﻿using Core.Application.Dtos;
-using Core.Application.Responses;
-namespace Application.Features.UserFeatures.Roles.Queries.GetList;
+﻿namespace Application.Features.UserFeatures.Roles.Queries.GetList;
 
 public class GetListRoleResponse : IResponse
 {

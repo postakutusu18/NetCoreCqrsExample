@@ -1,9 +1,4 @@
-﻿using Core.Application.Requests;
-using Core.Application.Responses;
-using Core.Application.Results;
-using MediatR;
-
-namespace Application.Features.Example.Products.Queries.GetList;
+﻿namespace Application.Features.Example.Products.Queries.GetList;
 
 public class GetListProductQuery : IRequest<IDataResult<GetListResponse<GetListProductResponse>>>//, ICachableRequest,ISecuredRequest
 {

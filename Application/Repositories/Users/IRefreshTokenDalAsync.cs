@@ -1,7 +1,4 @@
-﻿using Core.Persistance.Repositories;
-using Domains.Users;
-
-namespace Application.Repositories.Users;
+﻿namespace Application.Repositories.Users;
 
 public interface IRefreshTokenDalAsync : IAsyncRepository<RefreshToken, Guid>
 {

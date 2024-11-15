@@ -1,11 +1,4 @@
-﻿using Application.Features.Example.Products.Rules;
-using Application.Repositories;
-using Core.Application.Results;
-using Domains.Examples;
-using Mapster;
-using MediatR;
-
-namespace Application.Features.Example.Products.Queries.GetById;
+﻿namespace Application.Features.Example.Products.Queries.GetById;
 
 public class GetByIdProductHandler : IRequestHandler<GetByIdProductQuery, IDataResult<GetByIdProductResponse>>
 {

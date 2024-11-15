@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.Features.UserFeatures.Roles.Commands.Update;
+﻿namespace Application.Features.UserFeatures.Roles.Commands.Update;
 
 public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
 {

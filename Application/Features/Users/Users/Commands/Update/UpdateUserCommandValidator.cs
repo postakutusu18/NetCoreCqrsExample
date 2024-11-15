@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.Features.UserFeatures.Users.Commands.Update;
+﻿namespace Application.Features.UserFeatures.Users.Commands.Update;
 
 public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {

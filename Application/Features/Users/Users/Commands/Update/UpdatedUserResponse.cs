@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Users.Commands.Update;
+﻿namespace Application.Features.UserFeatures.Users.Commands.Update;
 public class UpdatedUserResponse : IResponse
 {
     public Guid Id { get; set; }

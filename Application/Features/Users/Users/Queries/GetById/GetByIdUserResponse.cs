@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Users.Queries.GetById;
+﻿namespace Application.Features.UserFeatures.Users.Queries.GetById;
 
 public class GetByIdUserResponse : IResponse
 {

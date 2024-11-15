@@ -1,6 +1,4 @@
-﻿using Core.Persistance.Repositories;
-
-namespace Domains.Examples;
+﻿namespace Domains.Examples;
 
 public class Product : Entity<Guid>
 {

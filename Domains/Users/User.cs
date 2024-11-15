@@ -1,6 +1,4 @@
-﻿using Core.Security.Entities;
-
-namespace Domains.Users;
+﻿namespace Domains.Users;
 
 public class User : UserBase<Guid>
 {

@@ -1,9 +1,4 @@
-﻿using Core.Application.Pipelines.Caching;
-using Core.Application.Pipelines.Logging;
-using Core.Application.Results;
-using MediatR;
-
-namespace Application.Features.Example.Products.Commands.Create;
+﻿namespace Application.Features.Example.Products.Commands.Create;
 
 public record CreateProductCommand(string Name) : IRequest<IDataResult<CreatedProductResponse>>, ICacheRemoverRequest, ILoggableRequest
 {

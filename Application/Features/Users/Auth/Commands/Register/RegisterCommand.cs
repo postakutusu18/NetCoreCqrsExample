@@ -1,6 +1,5 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.Register;
 using Core.Application.Dtos;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.Register;
 

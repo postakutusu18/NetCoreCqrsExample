@@ -1,5 +1,4 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.RefreshTokens;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.RefreshTokens;
 

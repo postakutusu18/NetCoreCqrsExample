@@ -1,11 +1,5 @@
 ﻿using Application.Features.UserFeatures.Users.Queries.GetById;
 using Application.Features.UserFeatures.Users.Rules;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Results;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.Users.Queries.GetById;
 

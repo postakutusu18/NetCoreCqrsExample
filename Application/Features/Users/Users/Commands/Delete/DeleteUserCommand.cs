@@ -1,7 +1,4 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
-using Core.Application.Pipelines.Authorization;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.UserFeatures.Users.Commands.Delete;
 

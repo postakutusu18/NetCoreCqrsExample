@@ -1,13 +1,4 @@
-﻿using Application.Features.Example.Products.Rules;
-using Application.Repositories;
-using Core.Application.Responses;
-using Core.Application.Results;
-using Core.Persistance.Paging;
-using Domains.Examples;
-using Mapster;
-using MediatR;
-
-namespace Application.Features.Example.Products.Queries.GetList;
+﻿namespace Application.Features.Example.Products.Queries.GetList;
 
 public class GetListProductHandler : IRequestHandler<GetListProductQuery, IDataResult<GetListResponse<GetListProductResponse>>>
 {

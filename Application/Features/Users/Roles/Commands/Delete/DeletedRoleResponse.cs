@@ -1,7 +1,4 @@
-﻿using Core.Application.Responses;
-
-
-namespace Application.Features.UserFeatures.Roles.Commands.Delete;
+﻿namespace Application.Features.UserFeatures.Roles.Commands.Delete;
 
 public class DeletedRoleResponse : IResponse
 {

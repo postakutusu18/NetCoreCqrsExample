@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Users.Commands.Create;
+﻿namespace Application.Features.UserFeatures.Users.Commands.Create;
 
 
 public class CreatedUserResponse : IResponse

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.Features.UserFeatures.UserRoles.Commands.Create;
+﻿namespace Application.Features.UserFeatures.UserRoles.Commands.Create;
 
 public class CreateUserRoleCommandValidator : AbstractValidator<CreateUserRoleCommand>
 {

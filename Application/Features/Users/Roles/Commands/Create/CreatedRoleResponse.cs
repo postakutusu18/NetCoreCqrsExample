@@ -1,6 +1,4 @@
-﻿using Core.Application.Responses;
-
-namespace Application.Features.UserFeatures.Roles.Commands.Create;
+﻿namespace Application.Features.UserFeatures.Roles.Commands.Create;
 
 public class CreatedRoleResponse : IResponse
 {

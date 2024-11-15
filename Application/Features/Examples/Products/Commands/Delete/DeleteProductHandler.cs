@@ -1,12 +1,4 @@
-﻿using Application.Features.Example.Products.Rules;
-using Application.Repositories;
-using Core.Application.Responses;
-using Core.Application.Results;
-using Domains.Examples;
-using Mapster;
-using MediatR;
-
-namespace Application.Features.Example.Products.Commands.Delete;
+﻿namespace Application.Features.Example.Products.Commands.Delete;
 
 public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, IDataResult<DeletedProductResponse>>
 {

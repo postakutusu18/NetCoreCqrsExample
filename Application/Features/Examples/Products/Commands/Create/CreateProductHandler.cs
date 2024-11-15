@@ -1,11 +1,4 @@
-﻿using Application.Features.Example.Products.Rules;
-using Application.Repositories;
-using Core.Application.Results;
-using Domains.Examples;
-using Mapster;
-using MediatR;
-using MimeKit;
-
+﻿
 namespace Application.Features.Example.Products.Commands.Create;
 
 public class CreateProductHandler : IRequestHandler<CreateProductCommand, IDataResult<CreatedProductResponse>>

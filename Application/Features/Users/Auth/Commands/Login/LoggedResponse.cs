@@ -1,7 +1,5 @@
-﻿using Core.Application.Responses;
-using Core.Security.Enums;
+﻿using Core.Security.Enums;
 using Core.Security.Jwt;
-using Domains.Users;
 
 namespace Application.Features.UserFeatures.Auth.Commands.Login;
 

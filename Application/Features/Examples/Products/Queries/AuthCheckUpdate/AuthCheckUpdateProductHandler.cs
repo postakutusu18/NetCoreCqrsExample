@@ -1,7 +1,4 @@
-﻿using Core.Application.Results;
-using MediatR;
-
-namespace Application.Features.Users.Auth.Queries.AuthCheckUpdate;
+﻿namespace Application.Features.Examples.Products.Queries.AuthCheckUpdate;
 
 public class AuthCheckUpdateProductHandler : IRequestHandler<AuthCheckUpdateProductQuery, IResult>
 {

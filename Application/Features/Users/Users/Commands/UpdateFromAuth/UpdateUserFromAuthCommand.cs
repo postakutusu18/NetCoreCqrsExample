@@ -1,6 +1,4 @@
 ﻿using Application.Features.UserFeatures.Users.Commands.UpdateFromAuth;
-using Core.Application.Results;
-using MediatR;
 
 namespace Application.Features.Users.Commands.UpdateFromAuth;
 

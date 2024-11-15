@@ -1,11 +1,5 @@
 ﻿using Application.Features.UserFeatures.UserRoles.Commands.Update;
 using Application.Features.UserFeatures.UserRoles.Rules;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Results;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.UserRoles.Commands.Update;
 

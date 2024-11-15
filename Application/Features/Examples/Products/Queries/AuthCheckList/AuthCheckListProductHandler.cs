@@ -1,7 +1,4 @@
-﻿using Core.Application.Results;
-using MediatR;
-
-namespace Application.Features.Users.Auth.Queries.AuthCheckList;
+﻿namespace Application.Features.Examples.Products.Queries.AuthCheckList;
 
 public class AuthCheckListProductHandler : IRequestHandler<AuthCheckListProductQuery, IResult>
 {

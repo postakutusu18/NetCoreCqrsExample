@@ -1,7 +1,4 @@
-﻿using Core.Application.Results;
-using MediatR;
-
-namespace Application.Features.Users.Auth.Queries.AuthCheckAdd;
+﻿namespace Application.Features.Examples.Products.Queries.AuthCheckAdd;
 
 public class AuthCheckAddProductHandler : IRequestHandler<AuthCheckAddProductQuery, IResult>
 {

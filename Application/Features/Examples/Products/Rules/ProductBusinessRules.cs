@@ -1,13 +1,4 @@
-﻿using Application.Features.Example.Products.Constants;
-using Application.Repositories;
-using Core.Application.Rules;
-using Core.CrossCuttingConcerns.Exceptions.Types;
-using Core.Localization;
-using Core.Persistance.Paging;
-using Domains.Examples;
-using static MailKit.Net.Imap.ImapEvent;
-
-namespace Application.Features.Example.Products.Rules;
+﻿namespace Application.Features.Example.Products.Rules;
 public class ProductBusinessRules : BaseBusinessRules
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;

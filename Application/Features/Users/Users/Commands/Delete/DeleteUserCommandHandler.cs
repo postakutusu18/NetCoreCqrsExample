@@ -1,9 +1,4 @@
 ﻿using Application.Features.UserFeatures.Users.Rules;
-using Application.Repositories;
-using Core.Application.Results;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.UserFeatures.Users.Commands.Delete;
 

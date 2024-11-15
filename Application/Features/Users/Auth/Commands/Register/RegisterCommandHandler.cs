@@ -1,12 +1,8 @@
 ﻿using Application.Features.UserFeatures.Auth.Commands.Register;
 using Application.Features.UserFeatures.Auth.Rules;
-using Application.Repositories;
-using Application.Repositories.Users;
 using Application.Services.AuthService;
 using Core.Security.Hashing;
 using Core.Security.Jwt;
-using Domains.Users;
-using MediatR;
 
 namespace Application.Features.Auth.Commands.Register;
 

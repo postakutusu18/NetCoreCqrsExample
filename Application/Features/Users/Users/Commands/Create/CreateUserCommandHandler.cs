@@ -1,11 +1,5 @@
 ﻿using Application.Features.UserFeatures.Users.Rules;
-using Application.Repositories;
-using Application.Repositories.Users;
-using Core.Application.Results;
 using Core.Security.Hashing;
-using Domains.Users;
-using Mapster;
-using MediatR;
 
 namespace Application.Features.UserFeatures.Users.Commands.Create;
 

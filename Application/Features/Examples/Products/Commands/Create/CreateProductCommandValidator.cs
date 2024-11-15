@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.Features.Example.Products.Commands.Create;
+﻿namespace Application.Features.Example.Products.Commands.Create;
 
 public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
