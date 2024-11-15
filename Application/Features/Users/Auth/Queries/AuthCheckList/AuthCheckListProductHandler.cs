@@ -1,7 +1,7 @@
 ﻿using Core.Application.Results;
 using MediatR;
 
-namespace Application.Features.Example.Products.Queries.AuthCheckList;
+namespace Application.Features.Users.Auth.Queries.AuthCheckList;
 
 public class AuthCheckListProductHandler : IRequestHandler<AuthCheckListProductQuery, IResult>
 {

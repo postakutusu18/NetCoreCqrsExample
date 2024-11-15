@@ -1,11 +1,11 @@
 ﻿using Application.Features.Example.Products.Commands.Create;
 using Application.Features.Example.Products.Commands.Delete;
 using Application.Features.Example.Products.Commands.Update;
-using Application.Features.Example.Products.Queries.AuthCheckAdd;
-using Application.Features.Example.Products.Queries.AuthCheckList;
-using Application.Features.Example.Products.Queries.AuthCheckUpdate;
 using Application.Features.Example.Products.Queries.GetById;
 using Application.Features.Example.Products.Queries.GetList;
+using Application.Features.Users.Auth.Queries.AuthCheckAdd;
+using Application.Features.Users.Auth.Queries.AuthCheckList;
+using Application.Features.Users.Auth.Queries.AuthCheckUpdate;
 using Core.Application.Requests;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Mvc;
