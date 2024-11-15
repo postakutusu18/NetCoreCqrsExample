@@ -23,11 +23,4 @@
     <ProjectReference Include="..\Domains\Domains.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Auth\Profiles\" />
-    <Folder Include="Features\Roles\Profiles\" />
-    <Folder Include="Features\UserRoles\Profiles\" />
-    <Folder Include="Features\Users\Profiles\" />
-  </ItemGroup>
-
 </Project>

@@ -10,10 +10,19 @@ public static class ServiceCollectionResourceLocalizationManagerExtension
     {
         services.AddScoped<ILocalizationService, ResourceLocalizationManager>(delegate
         {
+            string basePath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "..", "Application", "Features"));
+            string[] firstLevelDirectories = Directory.GetDirectories(basePath, "*", SearchOption.TopDirectoryOnly);
+
+            List<string> secondLevelDirectories = new List<string>();
+            foreach (var dir in firstLevelDirectories)
+            {
+                // Her bir birinci seviye klasörün altındaki klasörleri al
+                secondLevelDirectories.AddRange(Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly));
+            }
+
             Dictionary<string, Dictionary<string, string>> dictionary = new Dictionary<string, Dictionary<string, string>>();
-            //string[] directories = Directory.GetDirectories(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Features"));
-            string[] directories = Directory.GetDirectories(Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "..", "..", "..", "..", "Application", "Features"));
-            foreach (string obj in directories)
+           
+            foreach (string obj in secondLevelDirectories)
             {
                 string fileName = Path.GetFileName(obj);
                 string path = Path.Combine(obj, "Resources", "Locales");

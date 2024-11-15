@@ -1,6 +1,6 @@
 ﻿using Core.Persistance.DbHelper;
 using Core.Persistance.Repositories;
-using Domains;
+using Domains.Examples;
 using Domains.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

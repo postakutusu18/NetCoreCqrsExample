@@ -1,4 +1,4 @@
-﻿using Application.Features.Users.Rules;
+﻿using Application.Features.UserFeatures.Users.Rules;
 using Application.Repositories;
 using Application.Repositories.Users;
 using Core.Persistance.Paging;
