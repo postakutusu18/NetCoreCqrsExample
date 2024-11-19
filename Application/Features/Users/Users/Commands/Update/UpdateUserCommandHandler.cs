@@ -1,5 +1,6 @@
 ﻿using Application.Features.UserFeatures.Users.Rules;
 using Core.Security.Hashing;
+using Domains.Users;
 
 namespace Application.Features.UserFeatures.Users.Commands.Update;
 
@@ -25,8 +26,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, IData
         );
         await _userRules.UserShouldBeExistsWhenSelected(user);
         await _userRules.UserEmailShouldNotExistsWhenUpdate(user!.Id, user.Email);
-        user = request.Adapt<User>();
-
+        var mappedUserRole = request.Adapt(user);
         HashingHelper.CreatePasswordHash(
             request.Password,
             passwordHash: out byte[] passwordHash,
@@ -34,7 +34,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, IData
         );
         user!.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
-        await _unitOfWorkAsync.UserRepository.UpdateAsync(user);
+        await _unitOfWorkAsync.UserRepository.UpdateAsync(mappedUserRole);
         await _unitOfWorkAsync.SaveAsync();
 
         UpdatedUserResponse response = user.Adapt<UpdatedUserResponse>();

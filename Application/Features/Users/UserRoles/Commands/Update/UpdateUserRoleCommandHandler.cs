@@ -37,8 +37,7 @@ public partial class UpdateUserRoleCommand
                 request.UserId,
                 request.RoleId
             );
-            UserRole mappedUserRole = request.Adapt<UserRole>();
-
+            var mappedUserRole = request.Adapt(userRole);
             UserRole updatedUserRole = await _unitOfWorkAsync.UserRoleRepository.UpdateAsync(
                 mappedUserRole
             );

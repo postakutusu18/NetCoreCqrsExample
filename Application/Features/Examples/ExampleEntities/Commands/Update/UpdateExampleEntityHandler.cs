@@ -17,7 +17,7 @@ public class UpdateExampleEntityHandler : IRequestHandler<UpdateExampleEntityCom
         await _exampleEntityRules.ExampleEntityShouldExistWhenSelected(exampleEntity);
         await _exampleEntityRules.ExampleEntityNameCanNotBeDuplicatedWhenUpdated(exampleEntity);
 
-        ExampleEntity mappedExampleEntity = request.Adapt<ExampleEntity>();
+        var mappedExampleEntity = request.Adapt(exampleEntity);
         await _unitOfWorkAsync.ExampleEntityRepository.UpdateAsync(entity: mappedExampleEntity!);
         await _unitOfWorkAsync.SaveAsync();
         var result = mappedExampleEntity.Adapt<UpdatedExampleEntityResponse>();

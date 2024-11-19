@@ -54,21 +54,21 @@ public class ProductController : BaseController
     }
 
     [HttpGet("AuthCheckListProduct")]
-    public async Task<IActionResult> AuthCheckListProduct(AuthCheckListProductQuery listCheck)
+    public async Task<IActionResult> AuthCheckListProduct([FromRoute] AuthCheckListProductQuery listCheck)
     {
         var result = await Mediator.Send(listCheck);
         return Ok(result);
     }
 
     [HttpGet("AuthCheckAddProduct")]
-    public async Task<IActionResult> AuthCheckAddProduct(AuthCheckAddProductQuery addCheck)
+    public async Task<IActionResult> AuthCheckAddProduct([FromRoute] AuthCheckAddProductQuery addCheck)
     {
         var result = await Mediator.Send(addCheck);
         return Ok(result);
     }
 
     [HttpGet("AuthCheckUpdateProduct")]
-    public async Task<IActionResult> AuthCheckUpdateProduct(AuthCheckUpdateProductQuery updateCheck)
+    public async Task<IActionResult> AuthCheckUpdateProduct([FromRoute] AuthCheckUpdateProductQuery updateCheck)
     {
         var result = await Mediator.Send(updateCheck);
         return Ok(result);

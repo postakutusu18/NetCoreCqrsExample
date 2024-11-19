@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Example.Products.Commands.Update;
+﻿using Domains.Examples;
+
+namespace Application.Features.Example.Products.Commands.Update;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, IDataResult<UpdatedProductResponse>>
 {
@@ -16,8 +18,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, IDataR
         Product? product = await _unitOfWorkAsync.ProductRepository.GetAsync(predicate: p => p.Id == request.Id, cancellationToken: cancellationToken, enableTracking: false);
         _productBusinessRules.ProductShouldExistWhenSelected(product);
         await _productBusinessRules.ProductNameCanNotBeDuplicatedWhenUpdated(product);
-
-        Product mappedProduct = request.Adapt<Product>();
+        var mappedProduct = request.Adapt(product);
         await _unitOfWorkAsync.ProductRepository.UpdateAsync(entity: mappedProduct!);
         await _unitOfWorkAsync.SaveAsync();
         var result = mappedProduct.Adapt<UpdatedProductResponse>();

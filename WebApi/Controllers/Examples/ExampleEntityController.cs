@@ -6,8 +6,10 @@ using Application.Features.Examples.ExampleEntities.Queries.AuthCheckList;
 using Application.Features.Examples.ExampleEntities.Queries.AuthCheckUpdate;
 using Application.Features.Examples.ExampleEntities.Queries.GetById;
 using Application.Features.Examples.ExampleEntities.Queries.GetList;
+using Application.Features.Examples.ExampleEntities.Queries.GetListAjax;
 using Core.Application.Requests;
 using Core.Application.Results;
+using Core.Persistance.PagingAjax;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Examples;
@@ -32,6 +34,13 @@ public class ExampleEntityController : BaseController
         return Ok(products);
     }
 
+    [HttpGet("GetAllAjaxExampleEntities")]
+    public async Task<IActionResult> GetAllAjaxExampleEntities([FromQuery] DataTableAjaxDto pageRequest)
+    {
+        var query = new GetListAjaxExampleEntityQuery { PageRequest = pageRequest };
+        var products = await Mediator.Send(query);
+        return Ok(products);
+    }
     [HttpGet("{Id}")]
 
     public async Task<IActionResult> GetByIdExampleEntity([FromRoute] GetByIdExampleEntityQuery query)
@@ -54,21 +63,21 @@ public class ExampleEntityController : BaseController
     }
 
     [HttpGet("AuthCheckListExampleEntity")]
-    public async Task<IActionResult> AuthCheckListExampleEntity(AuthCheckListExampleEntityHandler listCheck)
+    public async Task<IActionResult> AuthCheckListExampleEntity([FromRoute] AuthCheckListExampleEntityQuery listCheck)
     {
         var result = await Mediator.Send(listCheck);
         return Ok(result);
     }
 
     [HttpGet("AuthCheckAddExampleEntity")]
-    public async Task<IActionResult> AuthCheckAddExampleEntity(AuthCheckAddExampleEntityQuery addCheck)
+    public async Task<IActionResult> AuthCheckAddExampleEntity([FromRoute] AuthCheckAddExampleEntityQuery addCheck)
     {
         var result = await Mediator.Send(addCheck);
         return Ok(result);
     }
 
     [HttpGet("AuthCheckUpdateExampleEntity")]
-    public async Task<IActionResult> AuthCheckUpdateExampleEntity(AuthCheckUpdateExampleEntityQuery updateCheck)
+    public async Task<IActionResult> AuthCheckUpdateExampleEntity([FromRoute] AuthCheckUpdateExampleEntityQuery updateCheck)
     {
         var result = await Mediator.Send(updateCheck);
         return Ok(result);

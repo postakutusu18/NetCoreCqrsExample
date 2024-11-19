@@ -1,5 +1,6 @@
 ﻿using Core.Persistance.Dynamic;
 using Core.Persistance.Paging;
+using Core.Persistance.PagingAjax;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
@@ -26,4 +27,5 @@ public interface IAsyncRepository<TEntity, TEntityId> : IQuery<TEntity> where TE
     Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false, CancellationToken cancellationToken = default(CancellationToken));
 
     Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false, CancellationToken cancellationToken = default(CancellationToken));
+    Task<PagingResult<TEntity>> GetListAjaxAsync(DataTableAjaxDto globalFilter, Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProporties);
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserFeatures.Roles.Rules;
+using Domains.Examples;
 
 namespace Application.Features.UserFeatures.Roles.Commands.Update;
 
@@ -27,7 +28,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, IData
         );
         await _roleRules.RoleShouldExistWhenSelected(role);
         await _roleRules.RoleNameShouldNotExistWhenUpdating(request.Id, request.Name);
-        Role mappedRole = request.Adapt<Role>();
+        var mappedRole = request.Adapt(role);
 
         Role updatedRole = await _unitOfWorkAsync.RoleRepository.UpdateAsync(mappedRole);
         await _unitOfWorkAsync.SaveAsync();

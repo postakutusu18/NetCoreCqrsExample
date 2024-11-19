@@ -1,5 +1,7 @@
-﻿using Core.Persistance.Dynamic;
+﻿using Core.Persistance.DbHelper;
+using Core.Persistance.Dynamic;
 using Core.Persistance.Paging;
+using Core.Persistance.PagingAjax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query;
@@ -343,5 +345,79 @@ public class EfAsyncRepositoryBase<TEntity, TEntityId> : IAsyncRepository<TEntit
     protected virtual bool IsSoftDeleted(IEntityTimestamps entity)
     {
         return entity.DeletedDate.HasValue;
+    }
+    public async Task<PagingResult<TEntity>> GetListAjaxAsync(DataTableAjaxDto globalFilter, Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProporties)
+    {
+        IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+        if (includeProporties != null)
+        {
+            if (includeProporties.Any())
+            {
+                foreach (var item in includeProporties)
+                {
+                    query = query.Include(item);
+                }
+            }
+        }
+        if (globalFilter == null)
+        {
+            var dataFilter = predicate != null ? await query.Where(predicate).ToListAsync() : await query.ToListAsync();
+
+            var count = predicate != null ? query.Where(predicate).Count() : query.Count();
+            return new PagingResult<TEntity>(dataFilter, count);
+        }
+
+        var parameterOfExpression = Expression.Parameter(typeof(TEntity), "x");
+
+        var toLowerMethod = typeof(string).GetMethod("ToLower", new Type[] { });
+
+
+        if (globalFilter.PropertyField is not null &&globalFilter.PropertyField.Count > 0 && !string.IsNullOrEmpty(globalFilter.SearchText))
+        {
+            var containMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+
+            var searchedValue = Expression.Constant(globalFilter.SearchText.ToLower(), typeof(string));
+
+            var globalFilterPropertyField = Expression.PropertyOrField(parameterOfExpression, globalFilter.PropertyField[0]);
+
+            Expression finalExpression = Expression.Call(Expression.Call(globalFilterPropertyField, toLowerMethod), containMethod, searchedValue);
+
+            for (int i = 1; i < globalFilter.PropertyField.Count; i++)
+            {
+                var propertyName = globalFilter.PropertyField[i];
+                if (!propertyName.Contains("."))
+                {
+                    globalFilterPropertyField = Expression.PropertyOrField(parameterOfExpression, propertyName);
+                    var globalFilterConstant = Expression.Call(Expression.Call(globalFilterPropertyField, toLowerMethod), containMethod, searchedValue);
+
+                    finalExpression = Expression.Or(finalExpression, globalFilterConstant);
+                }
+
+            }
+
+            var list = predicate != null ? query.Where(predicate)
+                .Where(Expression.Lambda<Func<TEntity, bool>>(finalExpression, parameterOfExpression)) :
+                query.Where(Expression.Lambda<Func<TEntity, bool>>(finalExpression, parameterOfExpression));
+            var totalCountForFilter = list.Count();
+
+            list = list.AscOrDescOrder(globalFilter.SortOrder == 1 ? SortEnums.ASC : SortEnums.DESC,
+                globalFilter.SortField).Skip(globalFilter.First).Take(globalFilter.Rows);
+
+
+            return new PagingResult<TEntity>(list.ToList(), totalCountForFilter);
+        }
+
+        //Is no have search text
+        var totalCount = predicate != null ?
+            await query.Where(predicate).CountAsync() :
+            await query.CountAsync();
+        var data = predicate != null ?
+            await query.Where(predicate).Skip(globalFilter.First).Take(globalFilter.Rows).ToListAsync() :
+            await query.Skip(globalFilter.First).Take(globalFilter.Rows).ToListAsync();
+        return new PagingResult<TEntity>(data, totalCount);
     }
 }
