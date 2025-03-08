@@ -1,9 +1,10 @@
 ﻿using Application.Features.Examples.ExampleEntities.Commands.Create;
+using Application.Features.Examples.ExampleEntities.Commands.CreateRange;
 using Application.Features.Examples.ExampleEntities.Commands.Delete;
 using Application.Features.Examples.ExampleEntities.Commands.Update;
-using Application.Features.Examples.ExampleEntities.Queries.AuthCheckAdd;
-using Application.Features.Examples.ExampleEntities.Queries.AuthCheckList;
-using Application.Features.Examples.ExampleEntities.Queries.AuthCheckUpdate;
+using Application.Features.Examples.ExampleEntities.Queries.CheckAddAuth;
+using Application.Features.Examples.ExampleEntities.Queries.CheckListAuth;
+using Application.Features.Examples.ExampleEntities.Queries.CheckUpdateAuth;
 using Application.Features.Examples.ExampleEntities.Queries.GetById;
 using Application.Features.Examples.ExampleEntities.Queries.GetList;
 using Application.Features.Examples.ExampleEntities.Queries.GetListAjax;
@@ -11,6 +12,7 @@ using Core.Application.Requests;
 using Core.Application.Results;
 using Core.Persistance.PagingAjax;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebApi.Controllers.Examples;
 
@@ -23,6 +25,12 @@ public class ExampleEntityController : BaseController
     public async Task<IActionResult> Add([FromBody] CreateExampleEntityCommand productDto)
     {
         var productId = await Mediator.Send(productDto);
+        return Ok(productId);
+    }
+    [HttpPost("AddRange")]
+    public async Task<IActionResult> AddRange([FromBody] CreateRangeExampleEntityCommand productsDto)
+    {
+        var productId = await Mediator.Send(productsDto);
         return Ok(productId);
     }
 
@@ -63,14 +71,14 @@ public class ExampleEntityController : BaseController
     }
 
     [HttpGet("AuthCheckListExampleEntity")]
-    public async Task<IActionResult> AuthCheckListExampleEntity([FromRoute] AuthCheckListExampleEntityQuery listCheck)
+    public async Task<IActionResult> AuthCheckListExampleEntity([FromRoute] CheckListAuthExampleEntityQuery listCheck)
     {
         var result = await Mediator.Send(listCheck);
         return Ok(result);
     }
 
     [HttpGet("AuthCheckAddExampleEntity")]
-    public async Task<IActionResult> AuthCheckAddExampleEntity([FromRoute] AuthCheckAddExampleEntityQuery addCheck)
+    public async Task<IActionResult> AuthCheckAddExampleEntity([FromRoute] CheckAddAuthExampleEntityQuery addCheck)
     {
         var result = await Mediator.Send(addCheck);
         return Ok(result);
@@ -82,4 +90,5 @@ public class ExampleEntityController : BaseController
         var result = await Mediator.Send(updateCheck);
         return Ok(result);
     }
+   
 }

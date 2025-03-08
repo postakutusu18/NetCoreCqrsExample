@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Examples.Products.Queries.AuthCheckList;
+﻿namespace Application.Features.Examples.Products.Queries.CheckListAuth;
 
 public class AuthCheckListProductHandler : IRequestHandler<AuthCheckListProductQuery, IResult>
 {

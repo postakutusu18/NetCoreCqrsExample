@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Example.Products.Queries.GetList;
 
-public class GetListProductQuery : IRequest<IDataResult<GetListResponse<GetListProductResponse>>>//, ICachableRequest,ISecuredRequest
+public record GetListProductQuery : IRequest<IDataResult<GetListResponse<GetListProductResponse>>>//, ICachableRequest,ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
     public string[] Roles => new[] { "Write", "Add" };

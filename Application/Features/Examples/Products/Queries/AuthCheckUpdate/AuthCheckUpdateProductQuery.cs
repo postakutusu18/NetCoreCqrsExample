@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Examples.Products.Queries.AuthCheckUpdate;
+﻿namespace Application.Features.Examples.Products.Queries.CheckUpdateAuth;
 
 public record AuthCheckUpdateProductQuery() : IRequest<IResult>, ISecuredRequest
 {

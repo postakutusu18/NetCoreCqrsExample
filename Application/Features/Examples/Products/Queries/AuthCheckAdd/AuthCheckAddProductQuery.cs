@@ -1,5 +1,5 @@
 ﻿
-namespace Application.Features.Examples.Products.Queries.AuthCheckAdd;
+namespace Application.Features.Examples.Products.Queries.CheckAddAuth;
 
 public record AuthCheckAddProductQuery : IRequest<IResult>, ISecuredRequest
 {

@@ -3,9 +3,9 @@ using Application.Features.Example.Products.Commands.Delete;
 using Application.Features.Example.Products.Commands.Update;
 using Application.Features.Example.Products.Queries.GetById;
 using Application.Features.Example.Products.Queries.GetList;
-using Application.Features.Examples.Products.Queries.AuthCheckAdd;
-using Application.Features.Examples.Products.Queries.AuthCheckList;
-using Application.Features.Examples.Products.Queries.AuthCheckUpdate;
+using Application.Features.Examples.Products.Queries.CheckAddAuth;
+using Application.Features.Examples.Products.Queries.CheckListAuth;
+using Application.Features.Examples.Products.Queries.CheckUpdateAuth;
 using Core.Application.Requests;
 using Core.Application.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -53,21 +53,21 @@ public class ProductController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckListProduct")]
+    [HttpGet("CheckListAuthProduct")]
     public async Task<IActionResult> AuthCheckListProduct([FromRoute] AuthCheckListProductQuery listCheck)
     {
         var result = await Mediator.Send(listCheck);
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckAddProduct")]
+    [HttpGet("CheckAddAuthProduct")]
     public async Task<IActionResult> AuthCheckAddProduct([FromRoute] AuthCheckAddProductQuery addCheck)
     {
         var result = await Mediator.Send(addCheck);
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckUpdateProduct")]
+    [HttpGet("CheckUpdateAuthProduct")]
     public async Task<IActionResult> AuthCheckUpdateProduct([FromRoute] AuthCheckUpdateProductQuery updateCheck)
     {
         var result = await Mediator.Send(updateCheck);

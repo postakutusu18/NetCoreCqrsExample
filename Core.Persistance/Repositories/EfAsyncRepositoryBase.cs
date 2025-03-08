@@ -348,7 +348,7 @@ public class EfAsyncRepositoryBase<TEntity, TEntityId> : IAsyncRepository<TEntit
     }
     public async Task<PagingResult<TEntity>> GetListAjaxAsync(DataTableAjaxDto globalFilter, Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProporties)
     {
-        IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+        IQueryable<TEntity> query = _dbContext.Set<TEntity>();       
         if (predicate != null)
         {
             query = query.Where(predicate);

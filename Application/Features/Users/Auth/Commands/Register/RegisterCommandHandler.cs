@@ -42,7 +42,7 @@ public partial class RegisterCommand
                     PasswordSalt = passwordSalt,
                 };
             User createdUser = await _unitOfWorkAsync.UserRepository.AddAsync(newUser);
-
+            await _unitOfWorkAsync.SaveAsync();
             AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
 
             RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
