@@ -1,9 +1,7 @@
-﻿using Application.Features.UserFeatures.Users.Commands.Create;
-using Application.Features.UserFeatures.Users.Commands.Delete;
-using Application.Features.UserFeatures.Users.Commands.Update;
-using Application.Features.Users.Commands.UpdateFromAuth;
+﻿using Application.Features.Users.Commands.UpdateFromAuth;
 using Application.Features.Users.Queries.GetById;
 using Application.Features.Users.Queries.GetList;
+using Application.Features.Users.Users.Commands;
 using Core.Application.Requests;
 using Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;

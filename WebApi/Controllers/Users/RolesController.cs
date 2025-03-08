@@ -1,7 +1,5 @@
-﻿using Application.Features.UserFeatures.Roles.Commands.Delete;
-using Application.Features.UserFeatures.Roles.Commands.Update;
-using Application.Features.UserFeatures.Roles.Queries.GetById;
-using Application.Features.UserFeatures.Roles.Queries.GetList;
+﻿using Application.Features.Users.Roles.Commands;
+using Application.Features.Users.Roles.Queries;
 using Core.Application.Requests;
 using Microsoft.AspNetCore.Mvc;
 

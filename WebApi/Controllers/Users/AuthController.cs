@@ -1,11 +1,4 @@
-﻿using Application.Features.Auth.Commands.Login;
-using Application.Features.Auth.Commands.RefreshTokens;
-using Application.Features.Auth.Commands.Register;
-using Application.Features.Auth.Commands.RevokeToken;
-using Application.Features.UserFeatures.Auth.Commands.Login;
-using Application.Features.UserFeatures.Auth.Commands.RefreshTokens;
-using Application.Features.UserFeatures.Auth.Commands.Register;
-using Application.Features.UserFeatures.Auth.Commands.RevokeToken;
+﻿using Application.Features.Users.Auth.Commands;
 using Core.Application.Dtos;
 using Core.Application.Results;
 using Domains.Users;

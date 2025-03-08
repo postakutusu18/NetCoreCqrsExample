@@ -1,18 +1,9 @@
-﻿using Application.Features.Examples.ExampleEntities.Commands.Create;
-using Application.Features.Examples.ExampleEntities.Commands.CreateRange;
-using Application.Features.Examples.ExampleEntities.Commands.Delete;
-using Application.Features.Examples.ExampleEntities.Commands.Update;
-using Application.Features.Examples.ExampleEntities.Queries.CheckAddAuth;
-using Application.Features.Examples.ExampleEntities.Queries.CheckListAuth;
-using Application.Features.Examples.ExampleEntities.Queries.CheckUpdateAuth;
-using Application.Features.Examples.ExampleEntities.Queries.GetById;
-using Application.Features.Examples.ExampleEntities.Queries.GetList;
-using Application.Features.Examples.ExampleEntities.Queries.GetListAjax;
+﻿using Application.Features.Examples.ExampleEntities.Commands;
+using Application.Features.Examples.ExampleEntities.Queries;
 using Core.Application.Requests;
 using Core.Application.Results;
 using Core.Persistance.PagingAjax;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace WebApi.Controllers.Examples;
 
