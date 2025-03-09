@@ -2,8 +2,8 @@
 using Application.Features.Users.Queries.GetById;
 using Application.Features.Users.Queries.GetList;
 using Application.Features.Users.Users.Commands;
+using Application.Features.Users.Users.Queries;
 using Core.Application.Requests;
-using Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Users;
@@ -61,6 +61,27 @@ public class UsersController : BaseController
     public async Task<IActionResult> Delete([FromBody] DeleteUserCommand deleteUserCommand)
     {
         var result = await Mediator.Send(deleteUserCommand);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthListUser")]
+    public async Task<IActionResult> CheckAddAuthListUser([FromRoute] CheckListAuthUserQuery listCheck)
+    {
+        var result = await Mediator.Send(listCheck);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthAddUser")]
+    public async Task<IActionResult> CheckAddAuthAddUser([FromRoute] CheckAddAuthUserQuery addCheck)
+    {
+        var result = await Mediator.Send(addCheck);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthUpdateUser")]
+    public async Task<IActionResult> CheckAddAuthUpdateUser([FromRoute] CheckUpdateAuthUserQuery updateCheck)
+    {
+        var result = await Mediator.Send(updateCheck);
         return Ok(result);
     }
 }

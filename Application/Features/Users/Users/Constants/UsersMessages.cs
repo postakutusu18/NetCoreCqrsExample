@@ -12,4 +12,5 @@ public static class UsersMessages
     public const string SuccessInserted = "SuccessInserted";
     public const string SuccessDeleted = "SuccessDeleted";
     public const string SuccessUpdated = "SuccessUpdated";
+    public const string AuthorizedUser = "AuthorizedUser";
 }

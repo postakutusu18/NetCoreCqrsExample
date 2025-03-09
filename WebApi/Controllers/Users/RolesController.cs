@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Roles.Commands;
+﻿using Application.Features.Examples.ExampleEntities.Queries;
+using Application.Features.Users.Roles.Commands;
 using Application.Features.Users.Roles.Queries;
 using Core.Application.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,27 @@ public class RolesController : BaseController
     public async Task<IActionResult> Delete([FromBody] DeleteRoleCommand deleteRoleCommand)
     {
         var result = await Mediator.Send(deleteRoleCommand);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthListRole")]
+    public async Task<IActionResult> CheckAddAuthListRole([FromRoute] CheckListAuthRoleQuery listCheck)
+    {
+        var result = await Mediator.Send(listCheck);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthAddRole")]
+    public async Task<IActionResult> CheckAddAuthAddRole([FromRoute] CheckAddAuthRoleQuery addCheck)
+    {
+        var result = await Mediator.Send(addCheck);
+        return Ok(result);
+    }
+
+    [HttpGet("CheckAddAuthUpdateRole")]
+    public async Task<IActionResult> CheckAddAuthUpdateRole([FromRoute] CheckUpdateAuthRoleQuery updateCheck)
+    {
+        var result = await Mediator.Send(updateCheck);
         return Ok(result);
     }
 }

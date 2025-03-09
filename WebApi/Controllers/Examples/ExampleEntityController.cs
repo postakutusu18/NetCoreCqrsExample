@@ -61,22 +61,22 @@ public class ExampleEntityController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckListExampleEntity")]
-    public async Task<IActionResult> AuthCheckListExampleEntity([FromRoute] CheckListAuthExampleEntityQuery listCheck)
+    [HttpGet("CheckListAuthExampleEntity")]
+    public async Task<IActionResult> CheckListAuthExampleEntity([FromRoute] CheckListAuthExampleEntityQuery listCheck)
     {
         var result = await Mediator.Send(listCheck);
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckAddExampleEntity")]
-    public async Task<IActionResult> AuthCheckAddExampleEntity([FromRoute] CheckAddAuthExampleEntityQuery addCheck)
+    [HttpGet("CheckAddAuthExampleEntity")]
+    public async Task<IActionResult> CheckAddAuthExampleEntity([FromRoute] CheckAddAuthExampleEntityQuery addCheck)
     {
         var result = await Mediator.Send(addCheck);
         return Ok(result);
     }
 
-    [HttpGet("AuthCheckUpdateExampleEntity")]
-    public async Task<IActionResult> AuthCheckUpdateExampleEntity([FromRoute] AuthCheckUpdateExampleEntityQuery updateCheck)
+    [HttpGet("CheckUpdateAuthExampleEntity")]
+    public async Task<IActionResult> CheckUpdateAuthExampleEntity([FromRoute] CheckUpdateAuthExampleEntityQuery updateCheck)
     {
         var result = await Mediator.Send(updateCheck);
         return Ok(result);
