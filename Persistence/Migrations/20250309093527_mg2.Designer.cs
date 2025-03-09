@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Context;
 
@@ -11,9 +12,11 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MsSqlDbContext))]
-    partial class MsSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309093527_mg2")]
+    partial class mg2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,9 +207,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDelete")
-                        .HasFilter("IsDelete = 0");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", "dbo");
@@ -256,9 +256,6 @@ namespace Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IsDelete")
-                        .HasFilter("IsDelete = 0");
 
                     b.ToTable("Roles", "dbo");
 
@@ -491,15 +488,12 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDelete")
-                        .HasFilter("IsDelete = 0");
-
                     b.ToTable("Users", "dbo");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d3d18826-dfa4-41ad-8394-d04d2e7548d3"),
+                            Id = new Guid("89669842-566e-4a0d-81ba-8adf8b93130c"),
                             AuthenticatorType = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "postakutusu18@hotmail.com",
@@ -508,8 +502,8 @@ namespace Persistence.Migrations
                             IsDelete = false,
                             LastName = "KARAAĞAÇ",
                             OrderNo = (short)0,
-                            PasswordHash = new byte[] { 99, 242, 161, 64, 112, 91, 43, 183, 0, 104, 224, 75, 188, 42, 171, 170, 205, 3, 22, 167, 149, 194, 9, 86, 48, 25, 235, 254, 80, 6, 204, 20, 219, 233, 108, 4, 82, 55, 87, 156, 205, 131, 104, 84, 53, 218, 91, 227, 172, 113, 229, 52, 224, 83, 191, 116, 194, 169, 171, 183, 209, 186, 61, 253 },
-                            PasswordSalt = new byte[] { 25, 82, 185, 141, 221, 85, 170, 250, 200, 0, 86, 3, 224, 26, 210, 134, 171, 231, 161, 46, 139, 235, 167, 72, 188, 89, 50, 78, 136, 95, 247, 214, 175, 254, 158, 244, 50, 77, 90, 147, 119, 133, 31, 140, 52, 76, 246, 219, 117, 231, 127, 93, 211, 3, 240, 201, 160, 220, 120, 62, 134, 119, 207, 210, 162, 97, 253, 87, 7, 250, 213, 92, 8, 136, 116, 9, 236, 211, 233, 240, 208, 45, 30, 193, 79, 97, 209, 180, 75, 197, 171, 29, 30, 135, 95, 189, 100, 23, 49, 69, 106, 220, 134, 136, 113, 78, 101, 58, 237, 161, 9, 188, 76, 50, 101, 76, 29, 23, 98, 42, 161, 212, 106, 251, 73, 125, 227, 52 }
+                            PasswordHash = new byte[] { 25, 135, 83, 231, 128, 140, 69, 51, 151, 172, 140, 136, 172, 18, 158, 153, 189, 97, 71, 201, 190, 163, 149, 68, 70, 160, 205, 67, 3, 73, 42, 54, 226, 123, 180, 65, 210, 113, 67, 169, 105, 161, 52, 202, 178, 240, 184, 225, 170, 167, 46, 70, 120, 136, 79, 132, 253, 45, 69, 45, 218, 210, 247, 93 },
+                            PasswordSalt = new byte[] { 238, 8, 147, 179, 201, 77, 42, 172, 73, 38, 132, 20, 187, 242, 233, 232, 228, 246, 18, 204, 228, 40, 91, 208, 191, 209, 64, 64, 132, 141, 205, 255, 34, 67, 103, 53, 53, 141, 245, 218, 88, 247, 233, 183, 128, 243, 61, 8, 73, 68, 189, 161, 50, 147, 46, 63, 108, 53, 202, 43, 249, 206, 230, 221, 180, 214, 37, 125, 245, 117, 63, 12, 223, 187, 45, 55, 80, 100, 90, 27, 148, 15, 222, 95, 247, 58, 117, 86, 107, 217, 90, 243, 191, 195, 231, 46, 12, 4, 229, 64, 167, 219, 59, 209, 254, 218, 43, 217, 218, 180, 31, 49, 99, 99, 175, 164, 33, 70, 187, 166, 254, 128, 120, 214, 169, 124, 55, 48 }
                         });
                 });
 
@@ -559,9 +553,6 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDelete")
-                        .HasFilter("IsDelete = 0");
-
                     b.HasIndex("RoleId");
 
                     b.HasIndex("UserId");
@@ -571,11 +562,11 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("590fd72a-724c-4221-ae2c-3f6788b60f94"),
+                            Id = new Guid("5730c6b8-ed95-4e9b-9b6c-c668f87a1d06"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNo = (short)0,
                             RoleId = 1,
-                            UserId = new Guid("d3d18826-dfa4-41ad-8394-d04d2e7548d3")
+                            UserId = new Guid("89669842-566e-4a0d-81ba-8adf8b93130c")
                         });
                 });
 

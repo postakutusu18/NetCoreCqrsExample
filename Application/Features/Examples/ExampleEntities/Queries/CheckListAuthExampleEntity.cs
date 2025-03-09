@@ -2,9 +2,15 @@
 
 public class CheckListAuthExampleEntity : IRequestHandler<CheckListAuthExampleEntityQuery, IResult>
 {
-    public Task<IResult> Handle(CheckListAuthExampleEntityQuery request, CancellationToken cancellationToken)
+    private readonly ILocalizationService _localizationService;
+    public CheckListAuthExampleEntity(ILocalizationService localizationService)
     {
-        return Task.FromResult<IResult>(new SuccessResult());
+        _localizationService = localizationService;
+    }
+    public async Task<IResult> Handle(CheckListAuthExampleEntityQuery request, CancellationToken cancellationToken)
+    {
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.AuthorizedUser, ExampleEntiesMessages.SectionName);
+        return new SuccessResult(message);
     }
 }
 

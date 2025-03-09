@@ -8,14 +8,17 @@ public class DeleteUserRole
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly UserRoleRules _userRoleRules;
+    private readonly ILocalizationService _localizationService;
 
     public DeleteUserRole(
         IUnitOfWorkAsync unitOfWorkAsync,
         UserRoleRules userRoleRules
-    )
+,
+        ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _userRoleRules = userRoleRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<DeletedUserRoleResponse>> Handle(
@@ -33,11 +36,12 @@ public class DeleteUserRole
         await _unitOfWorkAsync.SaveAsync();
 
         DeletedUserRoleResponse response = userRole.Adapt<DeletedUserRoleResponse>();
-        var result = new SuccessDataResult<DeletedUserRoleResponse>(response);
+        string message = await _localizationService.GetLocalizedAsync(UserRolesMessages.SuccessDeleted, UserRolesMessages.SectionName);
+        var result = new SuccessDataResult<DeletedUserRoleResponse>(response,message);
         return result;
     }
 }
-public record DeleteUserRoleCommand(Guid Id) : IRequest<IDataResult<DeletedUserRoleResponse>>, ISecuredRequest
+public record DeleteUserRoleCommand(Guid Id) : IRequest<IDataResult<DeletedUserRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UserRoleOperationClaims.AdminRole, UserRoleOperationClaims.WriteRole, UserRoleOperationClaims.DeleteRole };
 }

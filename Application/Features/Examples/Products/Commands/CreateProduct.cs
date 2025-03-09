@@ -35,7 +35,7 @@ public class CreateProduct : IRequestHandler<CreateProductCommand, IDataResult<C
     }
 }
 
-public record CreateProductCommand(string Name) : IRequest<IDataResult<CreatedProductResponse>>, ICacheRemoverRequest, ILoggableRequest
+public record CreateProductCommand(string Name,decimal Price) : IRequest<IDataResult<CreatedProductResponse>>, ICacheRemoverRequest, ILoggableRequest
 {
     public bool BypassCache { get; }
     public string? CacheKey { get; }

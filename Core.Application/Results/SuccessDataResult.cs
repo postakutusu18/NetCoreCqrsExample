@@ -1,4 +1,6 @@
-﻿namespace Core.Application.Results;
+﻿using Core.Localization;
+
+namespace Core.Application.Results;
 
 public class SuccessDataResult<T> : DataResult<T>
 {
@@ -18,5 +20,4 @@ public class SuccessDataResult<T> : DataResult<T>
     {
             
     }
-
 }

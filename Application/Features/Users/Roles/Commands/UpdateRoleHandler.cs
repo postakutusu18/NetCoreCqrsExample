@@ -1,6 +1,5 @@
 ﻿using Application.Features.UserFeatures.Roles.Constants;
 using Application.Features.UserFeatures.Roles.Rules;
-using Domains.Examples;
 
 namespace Application.Features.Users.Roles.Commands;
 
@@ -8,14 +7,17 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, IDataResult<
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly RoleRules _roleRules;
+    private readonly ILocalizationService _localizationService;
 
     public UpdateRoleHandler(
     IUnitOfWorkAsync unitOfWorkAsync,
     RoleRules roleRules
-    )
+,
+    ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _roleRules = roleRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<UpdatedRoleResponse>> Handle(
@@ -35,12 +37,13 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, IDataResult<
         await _unitOfWorkAsync.SaveAsync();
 
         UpdatedRoleResponse response = updatedRole.Adapt<UpdatedRoleResponse>();
-        var result = new SuccessDataResult<UpdatedRoleResponse>(response);
+        string message = await _localizationService.GetLocalizedAsync(RoleMessages.SuccessUpdated, RoleMessages.SectionName);
+        var result = new SuccessDataResult<UpdatedRoleResponse>(response,message);
         return result;
     }
 }
 
-public record UpdateRoleCommand(int Id, string Name) : IRequest<IDataResult<UpdatedRoleResponse>>, ISecuredRequest
+public record UpdateRoleCommand(int Id, string Name) : IRequest<IDataResult<UpdatedRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { RoleOperationClaims.AdminRole, RoleOperationClaims.WriteRole, RoleOperationClaims.UpdateRole };
 }

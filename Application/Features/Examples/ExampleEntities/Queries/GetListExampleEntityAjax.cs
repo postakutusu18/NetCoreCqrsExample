@@ -7,10 +7,12 @@ public class GetListExampleEntityAjax : IRequestHandler<GetListAjaxExampleEntity
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ExampleEntityRules _exampleEntityRules;
-    public GetListExampleEntityAjax(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules)
+    private readonly ILocalizationService _localizationService;
+    public GetListExampleEntityAjax(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _exampleEntityRules = exampleEntityRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<PagingResult<GetListAjaxExampleEntityResponse>>> Handle(GetListAjaxExampleEntityQuery request, CancellationToken cancellationToken)
@@ -23,7 +25,8 @@ public class GetListExampleEntityAjax : IRequestHandler<GetListAjaxExampleEntity
                request.PageRequest, predicate
            );
         var mappedProductListModel = products.Adapt<PagingResult<GetListAjaxExampleEntityResponse>>();
-        var resultData = new SuccessDataResult<PagingResult<GetListAjaxExampleEntityResponse>>(mappedProductListModel, "Success List");
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.SuccessList, ExampleEntiesMessages.SectionName);
+        var resultData = new SuccessDataResult<PagingResult<GetListAjaxExampleEntityResponse>>(mappedProductListModel,message);
         return resultData;
     }
 

@@ -4,11 +4,13 @@ public class DeleteExampleEntity : IRequestHandler<DeleteExampleEntityCommand, I
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ExampleEntityRules _exampleEntityRules;
+    private readonly ILocalizationService _localizationService;
 
-    public DeleteExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules)
+    public DeleteExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _exampleEntityRules = exampleEntityRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<DeletedExampleEntityResponse>> Handle(DeleteExampleEntityCommand request, CancellationToken cancellationToken)
@@ -18,7 +20,8 @@ public class DeleteExampleEntity : IRequestHandler<DeleteExampleEntityCommand, I
         await _unitOfWorkAsync.ExampleEntityRepository.DeleteAsync(entity: exampleEntity!);
         await _unitOfWorkAsync.SaveAsync();
         var result = exampleEntity.Adapt<DeletedExampleEntityResponse>();
-        return new SuccessDataResult<DeletedExampleEntityResponse>(result);
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.SuccessDeleted, ExampleEntiesMessages.SectionName);
+        return new SuccessDataResult<DeletedExampleEntityResponse>(result,message);
 
     }
 }

@@ -1,9 +1,9 @@
-﻿using Core.Security.Hashing;
+﻿using Core.Security.Enums;
+using Core.Security.Hashing;
 using Domains.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Persistence.EntityConfigurations.Users;
-
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
@@ -18,9 +18,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(u => u.DeletedDate).HasColumnName("DeletedDate");
-
-        builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
-
+        builder.Property(x => x.IsDelete).HasDefaultValue(false);
+        builder.Property(x => x.IsActive).HasDefaultValue(true);
+        builder.Property(x => x.OrderNo).HasDefaultValue(1);
+        builder.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()").ValueGeneratedOnAdd();
+        //builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
+        builder.HasQueryFilter(x => x.IsDelete == false);
+        builder.HasIndex(x => x.IsDelete).HasFilter("IsDelete = 0");
         builder.HasMany(u => u.UserRoles);
         builder.HasMany(u => u.RefreshTokens);
         //builder.HasMany(u => u.EmailAuthenticators);
@@ -47,7 +51,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     Id = AdminId,
                     Email = "postakutusu18@hotmail.com",
                     PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt
+                    PasswordSalt = passwordSalt,
+                    IsActive = true,
+                    IsDelete = false,
+                    FirstName ="Selçuk",
+                    LastName ="KARAAĞAÇ",
+                    AuthenticatorType = AuthenticatorType.Email
                 };
             yield return adminUser;
         }

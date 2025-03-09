@@ -7,14 +7,15 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, IDataResult<
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly RoleRules _roleRules;
-
+    private readonly ILocalizationService _localizationService;
     public CreateRoleHandler(
        IUnitOfWorkAsync unitOfWorkAsync,
-        RoleRules roleRules
-    )
+        RoleRules roleRules,
+        ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _roleRules = roleRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<CreatedRoleResponse>> Handle(
@@ -29,12 +30,14 @@ public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, IDataResult<
         await _unitOfWorkAsync.SaveAsync();
 
         CreatedRoleResponse response = createdRole.Adapt<CreatedRoleResponse>();
-        var result = new SuccessDataResult<CreatedRoleResponse>(response);
+
+        string message = await _localizationService.GetLocalizedAsync(RoleMessages.SuccessInserted, RoleMessages.SectionName);
+        var result = new SuccessDataResult<CreatedRoleResponse>(response, message);
         return result;
     }
 }
 
-public record CreateRoleCommand(string Name) : IRequest<IDataResult<CreatedRoleResponse>>, ISecuredRequest
+public record CreateRoleCommand(string Name) : IRequest<IDataResult<CreatedRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { RoleOperationClaims.CreateRole };
 }

@@ -4,10 +4,12 @@ public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, I
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ExampleEntityRules _exampleEntityRules;
-    public GetListExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules)
+    private readonly ILocalizationService _localizationService;
+    public GetListExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _exampleEntityRules = exampleEntityRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<GetListResponse<GetListExampleEntityResponse>>> Handle(GetListExampleEntityQuery request, CancellationToken cancellationToken)
@@ -17,7 +19,8 @@ public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, I
                size: request.PageRequest.PageSize
            );
         var mappedProductListModel = products.Adapt<GetListResponse<GetListExampleEntityResponse>>();
-        var resultData = new SuccessDataResult<GetListResponse<GetListExampleEntityResponse>>(mappedProductListModel);
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.SuccessList, ExampleEntiesMessages.SectionName);
+        var resultData = new SuccessDataResult<GetListResponse<GetListExampleEntityResponse>>(mappedProductListModel,message);
         return resultData;
     }
 

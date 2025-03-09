@@ -21,6 +21,14 @@ public class LocalizationMiddleware
                                                  orderby x.Quality.GetValueOrDefault(1.0) descending
                                                  select x.Value.ToString()).ToImmutableArray();
         }
+        else if (context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+        {
+            var queryAcceptLanguage = context.Request.Query["Accept-Language"];
+            if (!string.IsNullOrEmpty(queryAcceptLanguage))
+            {
+                localizationService.AcceptLocales = queryAcceptLanguage.ToString().Split(',').ToImmutableArray();
+            }
+        }
 
         await _next(context);
     }

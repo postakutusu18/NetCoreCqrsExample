@@ -19,8 +19,13 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(oc => oc.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(oc => oc.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(oc => oc.DeletedDate).HasColumnName("DeletedDate");
-
-        builder.HasQueryFilter(oc => !oc.DeletedDate.HasValue);
+        builder.Property(x => x.IsDelete).HasDefaultValue(false);
+        builder.Property(x => x.IsActive).HasDefaultValue(true);
+        builder.Property(x => x.OrderNo).HasDefaultValue(1);
+        builder.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()").ValueGeneratedOnAdd();
+        //builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
+        builder.HasQueryFilter(x => x.IsDelete == false);
+        builder.HasIndex(x => x.IsDelete).HasFilter("IsDelete = 0");
 
         builder.HasData(_seeds);
 

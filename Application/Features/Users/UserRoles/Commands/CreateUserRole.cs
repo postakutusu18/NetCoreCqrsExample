@@ -7,14 +7,17 @@ public class CreateUserRole
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly UserRoleRules _userRoleRules;
+    private readonly ILocalizationService _localizationService;
 
     public CreateUserRole(
         IUnitOfWorkAsync unitOfWorkAsync,
         UserRoleRules userRoleRules
-    )
+,
+        ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _userRoleRules = userRoleRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<CreatedUserRoleResponse>> Handle(
@@ -32,13 +35,14 @@ public class CreateUserRole
         await _unitOfWorkAsync.SaveAsync();
 
         var createdUserRoleDto = createdUserRole.Adapt<CreatedUserRoleResponse>();
-        var result = new SuccessDataResult<CreatedUserRoleResponse>(createdUserRoleDto);
+        string message = await _localizationService.GetLocalizedAsync(UserRolesMessages.SuccessInserted, UserRolesMessages.SectionName);
+        var result = new SuccessDataResult<CreatedUserRoleResponse>(createdUserRoleDto,message);
         return result;
     }
 }
 
 
-public record CreateUserRoleCommand(Guid UserId, int RoleId) : IRequest<IDataResult<CreatedUserRoleResponse>>, ISecuredRequest
+public record CreateUserRoleCommand(Guid UserId, int RoleId) : IRequest<IDataResult<CreatedUserRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UserRoleOperationClaims.AdminRole, UserRoleOperationClaims.WriteRole, UserRoleOperationClaims.CreateRole };
 }

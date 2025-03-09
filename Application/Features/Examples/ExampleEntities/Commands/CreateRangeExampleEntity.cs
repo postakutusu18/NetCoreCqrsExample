@@ -1,25 +1,29 @@
-﻿namespace Application.Features.Examples.ExampleEntities.Commands;
+﻿using Core.Localization;
+
+namespace Application.Features.Examples.ExampleEntities.Commands;
 
 public class CreateRangeExampleEntity : IRequestHandler<CreateRangeExampleEntityCommand, IDataResult<bool>>
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ExampleEntityRules _exampleEntityRules;
+    private readonly ILocalizationService _localizationService;
 
-    public CreateRangeExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules)
+    public CreateRangeExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _exampleEntityRules = exampleEntityRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<bool>> Handle(CreateRangeExampleEntityCommand request, CancellationToken cancellationToken)
     {
         var examples = request.Names.Select(name => new ExampleEntity { Name = name }).ToList();
-        var exampleEntity = request.Names.Adapt<ICollection<ExampleEntity>>();
+        var exampleEntity = examples.Adapt<ICollection<ExampleEntity>>();
         var createdExampleEntity = _unitOfWorkAsync.ExampleEntityRepository.AddRangeAsync(exampleEntity);
         await _unitOfWorkAsync.SaveAsync();
-        CreatedExampleEntityResponse createdBrandResponse = createdExampleEntity.Adapt<CreatedExampleEntityResponse>();
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.SuccessInserted, ExampleEntiesMessages.SectionName);
 
-        return new SuccessDataResult<bool>(true);
+        return new SuccessDataResult<bool>(message);
     }
 }
 

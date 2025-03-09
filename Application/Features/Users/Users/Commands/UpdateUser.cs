@@ -1,5 +1,6 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
 using Application.Features.UserFeatures.Users.Rules;
+using Core.Localization;
 using Core.Security.Hashing;
 
 namespace Application.Features.Users.Users.Commands;
@@ -9,12 +10,14 @@ public class UpdateUser : IRequestHandler<UpdateUserCommand, IDataResult<Updated
     //private readonly IUserDalAsync _userRepository;
     private readonly UserRules _userRules;
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+    private readonly ILocalizationService _localizationService;
 
-    public UpdateUser(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync)
+    public UpdateUser(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync, ILocalizationService localizationService)
     {
         //   _userRepository = userRepository;
         _userRules = userRules;
         _unitOfWorkAsync = unitOfWorkAsync;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<UpdatedUserResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -38,12 +41,13 @@ public class UpdateUser : IRequestHandler<UpdateUserCommand, IDataResult<Updated
         await _unitOfWorkAsync.SaveAsync();
 
         UpdatedUserResponse response = user.Adapt<UpdatedUserResponse>();
-        var result = new SuccessDataResult<UpdatedUserResponse>(response);
+        string message = await _localizationService.GetLocalizedAsync(UsersMessages.SuccessUpdated, UsersMessages.SectionName);
+        var result = new SuccessDataResult<UpdatedUserResponse>(response,message);
         return result;
     }
 }
 
-public record UpdateUserCommand(Guid Id, string FirstName, string LastName, string Email, string Password) : IRequest<IDataResult<UpdatedUserResponse>>, ISecuredRequest
+public record UpdateUserCommand(Guid Id, string FirstName, string LastName, string Email, string Password) : IRequest<IDataResult<UpdatedUserResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UsersOperationClaims.AdminRole, UsersOperationClaims.WriteRole, UsersOperationClaims.DeleteRole };
 }

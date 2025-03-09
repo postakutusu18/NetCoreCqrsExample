@@ -7,14 +7,17 @@ public class GetByIdRole : IRequestHandler<GetByIdRoleQuery, IDataResult<GetById
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly RoleRules _roleRules;
+    private readonly ILocalizationService _localizationService;
 
     public GetByIdRole(
         IUnitOfWorkAsync unitOfWorkAsync,
-        RoleRules roleRules
+        RoleRules roleRules,
+        ILocalizationService localizationService
     )
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _roleRules = roleRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<GetByIdRoleResponse>> Handle(
@@ -29,13 +32,14 @@ public class GetByIdRole : IRequestHandler<GetByIdRoleQuery, IDataResult<GetById
         );
         await _roleRules.RoleShouldExistWhenSelected(role);
 
+        string message = await _localizationService.GetLocalizedAsync(RoleMessages.SuccessRecord, RoleMessages.SectionName);
         GetByIdRoleResponse response = role.Adapt<GetByIdRoleResponse>();
-        var result = new SuccessDataResult<GetByIdRoleResponse>(response);
+        var result = new  SuccessDataResult<GetByIdRoleResponse>(response, message);
         return result;
     }
 }
 
-public record GetByIdRoleQuery(int Id) : IRequest<IDataResult<GetByIdRoleResponse>>, ISecuredRequest
+public record GetByIdRoleQuery(int Id) : IRequest<IDataResult<GetByIdRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => [RoleOperationClaims.ReadRole];
 }

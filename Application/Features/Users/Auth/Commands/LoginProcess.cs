@@ -27,7 +27,7 @@ public class LoginProcess : IRequestHandler<LoginCommand, IDataResult<LoggedResp
     public async Task<IDataResult<LoggedResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         User? user = await _userService.GetAsync(
-            predicate: u => u.Email == request.UserForLoginDto.Email,
+            predicate: u => u.Email == request.UserForLoginDto.Email && u.IsActive == true,
             cancellationToken: cancellationToken
         );
         await _authBusinessRules.UserShouldBeExistsWhenSelected(user);
@@ -71,15 +71,5 @@ public partial class LoginCommand : IRequest<IDataResult<LoggedResponse>>
     public UserForLoginDto UserForLoginDto { get; set; }
     public string IpAddress { get; set; }
 
-    public LoginCommand()
-    {
-        UserForLoginDto = null!;
-        IpAddress = string.Empty;
-    }
-
-    public LoginCommand(UserForLoginDto userForLoginDto, string ipAddress)
-    {
-        UserForLoginDto = userForLoginDto;
-        IpAddress = ipAddress;
-    }
+  
 }

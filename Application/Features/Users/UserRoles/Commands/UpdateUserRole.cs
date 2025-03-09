@@ -4,22 +4,25 @@ using Application.Features.UserFeatures.UserRoles.Rules;
 namespace Application.Features.UserRoles.Commands.Update;
 
 
-    public class UpdateUserRole
+public class UpdateUserRole
         : IRequestHandler<UpdateUserRoleCommand,IDataResult<UpdatedUserRoleResponse>>
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRoleRules _userRoleRules;
+    private readonly ILocalizationService _localizationService;
 
-        public UpdateUserRole(
+    public UpdateUserRole(
         IUnitOfWorkAsync unitOfWorkAsync,
             UserRoleRules userRoleRules
-        )
-        {
-            _unitOfWorkAsync = unitOfWorkAsync;
-            _userRoleRules = userRoleRules;
-        }
+,
+            ILocalizationService localizationService)
+    {
+        _unitOfWorkAsync = unitOfWorkAsync;
+        _userRoleRules = userRoleRules;
+        _localizationService = localizationService;
+    }
 
-        public async Task<IDataResult<UpdatedUserRoleResponse>> Handle(
+    public async Task<IDataResult<UpdatedUserRoleResponse>> Handle(
             UpdateUserRoleCommand request,
             CancellationToken cancellationToken
         )
@@ -42,12 +45,13 @@ namespace Application.Features.UserRoles.Commands.Update;
             await _unitOfWorkAsync.SaveAsync();
 
             var updatedUserRoleDto = updatedUserRole.Adapt<UpdatedUserRoleResponse>();
-            var result = new SuccessDataResult<UpdatedUserRoleResponse>(updatedUserRoleDto);
+        string message = await _localizationService.GetLocalizedAsync(UserRolesMessages.SuccessUpdated, UserRolesMessages.SectionName);
+        var result = new SuccessDataResult<UpdatedUserRoleResponse>(updatedUserRoleDto,message);
             return result;
         }
     }
 
-public record UpdateUserRoleCommand(Guid Id, Guid UserId, int RoleId) : IRequest<IDataResult<UpdatedUserRoleResponse>>, ISecuredRequest
+public record UpdateUserRoleCommand(Guid Id, Guid UserId, int RoleId) : IRequest<IDataResult<UpdatedUserRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UserRoleOperationClaims.AdminRole, UserRoleOperationClaims.WriteRole, UserRoleOperationClaims.DeleteRole };
 }

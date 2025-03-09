@@ -1,2 +1,7 @@
 UserRoleNotExists: "The user hasn't the operation claim."
 UserRoleAlreadyExists: "The user has the operation claim already."
+SuccessRecord: "Record was brought."
+SuccessList: "Records listed"
+SuccessInserted: "Record added"
+SuccessDeleted: "Record deleted"
+SuccessUpdated: "Record updated"

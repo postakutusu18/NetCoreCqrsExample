@@ -12,8 +12,8 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MsSqlDbContext))]
-    [Migration("20241119175841_mg5")]
-    partial class mg5
+    [Migration("20250309120225_mg3")]
+    partial class mg3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,8 +148,10 @@ namespace Persistence.Migrations
                         .HasColumnName("CreatedByIp");
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("CreatedDate")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2")
@@ -160,13 +162,19 @@ namespace Persistence.Migrations
                         .HasColumnName("ExpiresDate");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDelete")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<short>("OrderNo")
-                        .HasColumnType("smallint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1);
 
                     b.Property<string>("ReasonRevoked")
                         .HasColumnType("nvarchar(max)")
@@ -214,18 +222,24 @@ namespace Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("CreatedDate")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletedDate");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDelete")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -233,7 +247,9 @@ namespace Persistence.Migrations
                         .HasColumnName("Name");
 
                     b.Property<short>("OrderNo")
-                        .HasColumnType("smallint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1);
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2")
@@ -419,8 +435,10 @@ namespace Persistence.Migrations
                         .HasColumnName("AuthenticatorType");
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("CreatedDate")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2")
@@ -436,17 +454,23 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDelete")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<short>("OrderNo")
-                        .HasColumnType("smallint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1);
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -464,20 +488,25 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsDelete")
+                        .HasFilter("IsDelete = 0");
+
                     b.ToTable("Users", "dbo");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("58400c16-f3c6-4089-8b9b-38d0e6d3f2bd"),
-                            AuthenticatorType = 0,
+                            Id = new Guid("f9d3aaa6-bacd-444a-94cc-afec047696dc"),
+                            AuthenticatorType = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "postakutusu18@hotmail.com",
-                            FirstName = "",
-                            LastName = "",
+                            FirstName = "Selçuk",
+                            IsActive = true,
+                            IsDelete = false,
+                            LastName = "KARAAĞAÇ",
                             OrderNo = (short)0,
-                            PasswordHash = new byte[] { 44, 245, 39, 200, 255, 78, 235, 175, 131, 194, 25, 90, 212, 186, 142, 187, 236, 81, 248, 243, 35, 230, 243, 189, 21, 234, 226, 196, 122, 34, 50, 154, 101, 158, 215, 106, 200, 174, 45, 193, 68, 24, 130, 76, 232, 159, 229, 195, 104, 234, 128, 120, 0, 100, 206, 47, 87, 71, 23, 179, 49, 166, 232, 64 },
-                            PasswordSalt = new byte[] { 59, 172, 30, 144, 22, 75, 60, 245, 122, 57, 101, 17, 89, 194, 35, 225, 2, 199, 57, 205, 225, 142, 81, 168, 75, 63, 96, 200, 113, 44, 134, 32, 163, 37, 158, 147, 59, 213, 48, 170, 214, 159, 70, 59, 176, 232, 199, 90, 206, 134, 170, 95, 38, 162, 56, 30, 137, 133, 184, 115, 172, 164, 242, 14, 82, 175, 220, 202, 200, 217, 163, 76, 157, 247, 73, 253, 221, 96, 154, 76, 67, 54, 179, 79, 142, 124, 144, 86, 176, 42, 249, 231, 255, 194, 91, 129, 201, 55, 46, 204, 220, 215, 10, 132, 196, 23, 227, 165, 118, 25, 232, 133, 249, 254, 0, 184, 127, 225, 189, 107, 165, 153, 186, 73, 248, 28, 196, 10 }
+                            PasswordHash = new byte[] { 194, 100, 184, 195, 113, 100, 55, 128, 146, 34, 177, 159, 185, 207, 17, 13, 186, 103, 233, 67, 145, 158, 219, 225, 145, 199, 22, 34, 126, 183, 254, 160, 214, 250, 209, 151, 10, 177, 171, 158, 61, 229, 111, 5, 98, 142, 223, 217, 86, 3, 48, 88, 93, 129, 5, 181, 236, 221, 9, 119, 138, 53, 119, 29 },
+                            PasswordSalt = new byte[] { 128, 156, 223, 33, 151, 107, 235, 66, 37, 27, 213, 11, 223, 180, 196, 69, 194, 13, 123, 44, 48, 241, 92, 167, 190, 250, 61, 246, 238, 61, 143, 153, 180, 206, 114, 158, 184, 63, 166, 1, 14, 250, 231, 148, 218, 206, 69, 236, 129, 54, 161, 158, 151, 185, 140, 42, 209, 113, 202, 89, 135, 169, 102, 227, 66, 51, 244, 45, 133, 75, 67, 214, 107, 73, 236, 67, 251, 169, 87, 87, 28, 135, 192, 214, 186, 218, 13, 202, 109, 66, 32, 196, 195, 114, 74, 127, 40, 97, 75, 135, 138, 182, 112, 17, 139, 128, 204, 42, 204, 229, 204, 85, 228, 254, 127, 233, 22, 124, 108, 120, 104, 54, 95, 179, 91, 93, 9, 133 }
                         });
                 });
 
@@ -489,21 +518,29 @@ namespace Persistence.Migrations
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDate");
+                        .HasColumnName("CreatedDate")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletedDate");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool?>("IsDelete")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<short>("OrderNo")
-                        .HasColumnType("smallint");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1);
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int")
@@ -528,11 +565,11 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0d6564c1-fb8f-4259-b536-1cbd3c6c8c3f"),
+                            Id = new Guid("0e72a5bb-f502-4a73-a80a-87ba57d8e650"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNo = (short)0,
                             RoleId = 1,
-                            UserId = new Guid("58400c16-f3c6-4089-8b9b-38d0e6d3f2bd")
+                            UserId = new Guid("f9d3aaa6-bacd-444a-94cc-afec047696dc")
                         });
                 });
 

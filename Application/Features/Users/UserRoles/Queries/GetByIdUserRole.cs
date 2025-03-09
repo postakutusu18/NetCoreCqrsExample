@@ -3,22 +3,25 @@ using Application.Features.UserFeatures.UserRoles.Rules;
 
 namespace Application.Features.UserRoles.Queries.GetById;
 
-    public class GetByIdUserRole
+public class GetByIdUserRole
         : IRequestHandler<GetByIdUserRoleQuery,IDataResult<GetByIdUserRoleResponse>>
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRoleRules _userRoleRules;
+    private readonly ILocalizationService _localizationService;
 
-        public GetByIdUserRole(
+    public GetByIdUserRole(
         IUnitOfWorkAsync unitOfWorkAsync,
             UserRoleRules userRoleRules
-        )
-        {
-            _unitOfWorkAsync = unitOfWorkAsync;
-            _userRoleRules = userRoleRules;
-        }
+,
+            ILocalizationService localizationService)
+    {
+        _unitOfWorkAsync = unitOfWorkAsync;
+        _userRoleRules = userRoleRules;
+        _localizationService = localizationService;
+    }
 
-        public async Task<IDataResult<GetByIdUserRoleResponse>> Handle(
+    public async Task<IDataResult<GetByIdUserRoleResponse>> Handle(
             GetByIdUserRoleQuery request,
             CancellationToken cancellationToken
         )
@@ -31,12 +34,13 @@ namespace Application.Features.UserRoles.Queries.GetById;
             await _userRoleRules.UserRoleShouldExistWhenSelected(userRole);
 
             GetByIdUserRoleResponse userRoleDto = userRole.Adapt<GetByIdUserRoleResponse>();
-            var result = new SuccessDataResult<GetByIdUserRoleResponse>(userRoleDto);
+        string message = await _localizationService.GetLocalizedAsync(UserRolesMessages.SuccessRecord, UserRolesMessages.SectionName);
+        var result = new SuccessDataResult<GetByIdUserRoleResponse>(userRoleDto, message);
             return result;
         }
     }
 
-public record GetByIdUserRoleQuery(Guid Id) : IRequest<IDataResult<GetByIdUserRoleResponse>>, ISecuredRequest
+public record GetByIdUserRoleQuery(Guid Id) : IRequest<IDataResult<GetByIdUserRoleResponse>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UserRoleOperationClaims.ReadRole };
 }

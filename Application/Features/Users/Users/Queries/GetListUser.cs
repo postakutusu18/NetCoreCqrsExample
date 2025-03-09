@@ -1,18 +1,19 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
-using Core.Application.Dtos;
 
 namespace Application.Features.Users.Queries.GetList;
 
-    public class GetListUser : IRequestHandler<GetListUserQuery,IDataResult<GetListResponse<GetListUserListResponse>>>
+public class GetListUser : IRequestHandler<GetListUserQuery,IDataResult<GetListResponse<GetListUserListResponse>>>
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+    private readonly ILocalizationService _localizationService;
 
-        public GetListUser(IUnitOfWorkAsync unitOfWorkAsync)
-        {
-            _unitOfWorkAsync = unitOfWorkAsync;
-        }
+    public GetListUser(IUnitOfWorkAsync unitOfWorkAsync, ILocalizationService localizationService)
+    {
+        _unitOfWorkAsync = unitOfWorkAsync;
+        _localizationService = localizationService;
+    }
 
-        public async Task<IDataResult<GetListResponse<GetListUserListResponse>>> Handle(
+    public async Task<IDataResult<GetListResponse<GetListUserListResponse>>> Handle(
             GetListUserQuery request,
             CancellationToken cancellationToken
         )
@@ -25,11 +26,12 @@ namespace Application.Features.Users.Queries.GetList;
             );
 
             GetListResponse<GetListUserListResponse> response = users.Adapt<GetListResponse<GetListUserListResponse>>();
-            var result = new SuccessDataResult<GetListResponse<GetListUserListResponse>>(response);
+        string message = await _localizationService.GetLocalizedAsync(UsersMessages.SuccessList, UsersMessages.SectionName);
+        var result = new SuccessDataResult<GetListResponse<GetListUserListResponse>>(response, message);
             return result;
         }
     }
-public partial class GetListUserQuery : IRequest<IDataResult<GetListResponse<GetListUserListResponse>>>, ISecuredRequest
+public partial class GetListUserQuery : IRequest<IDataResult<GetListResponse<GetListUserListResponse>>>//, ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
 
@@ -45,27 +47,4 @@ public partial class GetListUserQuery : IRequest<IDataResult<GetListResponse<Get
         PageRequest = pageRequest;
     }
 }
-public class GetListUserListResponse : IDto
-{
-    public Guid Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public bool Status { get; set; }
-
-    public GetListUserListResponse()
-    {
-        FirstName = string.Empty;
-        LastName = string.Empty;
-        Email = string.Empty;
-    }
-
-    public GetListUserListResponse(Guid id, string firstName, string lastName, string email, bool status)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Status = status;
-    }
-}
+public record GetListUserListResponse(Guid Id, string FirstName, string LastName, string Email, bool Status);

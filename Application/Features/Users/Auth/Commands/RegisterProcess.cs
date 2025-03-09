@@ -1,6 +1,7 @@
 ﻿using Application.Features.UserFeatures.Auth.Rules;
 using Application.Services.AuthService;
 using Core.Application.Dtos;
+using Core.Security.Enums;
 using Core.Security.Hashing;
 using Core.Security.Jwt;
 
@@ -36,6 +37,9 @@ public class RegisterProcess : IRequestHandler<RegisterCommand, RegisteredRespon
             new()
             {
                 Email = request.UserForRegisterDto.Email,
+                FirstName = request.UserForRegisterDto.FirstName,
+                LastName = request.UserForRegisterDto.LastName,
+                AuthenticatorType = AuthenticatorType.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
             };

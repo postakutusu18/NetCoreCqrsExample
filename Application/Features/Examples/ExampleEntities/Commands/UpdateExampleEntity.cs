@@ -4,11 +4,13 @@ public class UpdateExampleEntity : IRequestHandler<UpdateExampleEntityCommand, I
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ExampleEntityRules _exampleEntityRules;
+    private readonly ILocalizationService _localizationService;
 
-    public UpdateExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules)
+    public UpdateExampleEntity(IUnitOfWorkAsync unitOfWorkAsync, ExampleEntityRules exampleEntityRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _exampleEntityRules = exampleEntityRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<UpdatedExampleEntityResponse>> Handle(UpdateExampleEntityCommand request, CancellationToken cancellationToken)
@@ -21,7 +23,8 @@ public class UpdateExampleEntity : IRequestHandler<UpdateExampleEntityCommand, I
         await _unitOfWorkAsync.ExampleEntityRepository.UpdateAsync(entity: mappedExampleEntity!);
         await _unitOfWorkAsync.SaveAsync();
         var result = mappedExampleEntity.Adapt<UpdatedExampleEntityResponse>();
-        return new SuccessDataResult<UpdatedExampleEntityResponse>(result);
+        string message = await _localizationService.GetLocalizedAsync(ExampleEntiesMessages.SuccessUpdated, ExampleEntiesMessages.SectionName);
+        return new SuccessDataResult<UpdatedExampleEntityResponse>(result,message);
     }
 }
 

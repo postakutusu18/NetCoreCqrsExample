@@ -1,2 +1,7 @@
 ﻿DublicateName: "Ürün Adı Eklenmiş..."
 ProductNotExists: "Ürün Bulunamadı....."
+SuccessRecord: "Kayıt Getirildi"
+SuccessList: "Kayıtlar Listelendi"
+SuccessInserted: "Kayıt Eklendi"
+SuccessDeleted: "Kayıt Silindi"
+SuccessUpdated: "Kayıt Güncellendi"

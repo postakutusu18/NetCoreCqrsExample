@@ -1,5 +1,6 @@
 ﻿using Application.Features.UserFeatures.Users.Constants;
 using Application.Features.UserFeatures.Users.Rules;
+using Core.Localization;
 
 namespace Application.Features.Users.Queries.GetById;
 
@@ -7,14 +8,16 @@ namespace Application.Features.Users.Queries.GetById;
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly UserRules _userBusinessRules;
+    private readonly ILocalizationService _localizationService;
 
-        public GetByIdUser(IUnitOfWorkAsync unitOfWorkAsync, UserRules userBusinessRules)
-        {
-            _unitOfWorkAsync = unitOfWorkAsync;
-            _userBusinessRules = userBusinessRules;
-        }
+    public GetByIdUser(IUnitOfWorkAsync unitOfWorkAsync, UserRules userBusinessRules, ILocalizationService localizationService)
+    {
+        _unitOfWorkAsync = unitOfWorkAsync;
+        _userBusinessRules = userBusinessRules;
+        _localizationService = localizationService;
+    }
 
-        public async Task<IDataResult<GetByIdUserResponse>> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
+    public async Task<IDataResult<GetByIdUserResponse>> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
         {
             User? user = await _unitOfWorkAsync.UserRepository.GetAsync(
                 predicate: b => b.Id.Equals(request.Id),
@@ -24,11 +27,12 @@ namespace Application.Features.Users.Queries.GetById;
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
 
             GetByIdUserResponse response = user.Adapt<GetByIdUserResponse>();
-            var result = new SuccessDataResult<GetByIdUserResponse>(response);  
+        string message = await _localizationService.GetLocalizedAsync(UsersMessages.SuccessRecord, UsersMessages.SectionName);
+        var result = new SuccessDataResult<GetByIdUserResponse>(response, message);  
             return result;
         }
     }
-public class GetByIdUserQuery : IRequest<IDataResult<GetByIdUserResponse>>, ISecuredRequest
+public class GetByIdUserQuery : IRequest<IDataResult<GetByIdUserResponse>>//, ISecuredRequest
 {
     public Guid Id { get; set; }
 

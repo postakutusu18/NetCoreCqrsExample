@@ -1,5 +1,7 @@
-﻿using Application.Features.UserFeatures.Users.Constants;
+﻿using Application.Features.UserFeatures.UserRoles.Constants;
+using Application.Features.UserFeatures.Users.Constants;
 using Application.Features.UserFeatures.Users.Rules;
+using Core.Localization;
 using Core.Security.Hashing;
 
 namespace Application.Features.Users.Users.Commands;
@@ -8,11 +10,13 @@ public class CreateUser : IRequestHandler<CreateUserCommand, IDataResult<Created
 {
     private readonly UserRules _userRules;
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+    private readonly ILocalizationService _localizationService;
 
-    public CreateUser(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync)
+    public CreateUser(UserRules userRules, IUnitOfWorkAsync unitOfWorkAsync, ILocalizationService localizationService)
     {
         _userRules = userRules;
         _unitOfWorkAsync = unitOfWorkAsync;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<CreatedUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -31,7 +35,8 @@ public class CreateUser : IRequestHandler<CreateUserCommand, IDataResult<Created
         await _unitOfWorkAsync.SaveAsync();
 
         CreatedUserResponse response = createdUser.Adapt<CreatedUserResponse>();
-        var result = new SuccessDataResult<CreatedUserResponse>(response);
+        string message = await _localizationService.GetLocalizedAsync(UsersMessages.SuccessInserted, UsersMessages.SectionName);
+        var result = new SuccessDataResult<CreatedUserResponse>(response,message);
         return result;
     }
 }

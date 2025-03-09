@@ -1,2 +1,7 @@
 ﻿DublicateName: "Dublicate Product Name..."
 ProductNotExists: "Product Not Found....."
+SuccessRecord: "Record was brought."
+SuccessList: "Records listed"
+SuccessInserted: "Record added"
+SuccessDeleted: "Record deleted"
+SuccessUpdated: "Record updated"

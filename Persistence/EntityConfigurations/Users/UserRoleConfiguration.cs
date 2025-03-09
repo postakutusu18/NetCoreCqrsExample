@@ -15,9 +15,13 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
         builder.Property(uoc => uoc.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(uoc => uoc.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(uoc => uoc.DeletedDate).HasColumnName("DeletedDate");
-
-        builder.HasQueryFilter(uoc => !uoc.DeletedDate.HasValue);
-
+        builder.Property(x => x.IsDelete).HasDefaultValue(false);
+        builder.Property(x => x.IsActive).HasDefaultValue(true);
+        builder.Property(x => x.OrderNo).HasDefaultValue(1);
+        builder.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()").ValueGeneratedOnAdd();
+        //builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
+        builder.HasQueryFilter(x => x.IsDelete == false);
+        builder.HasIndex(x => x.IsDelete).HasFilter("IsDelete = 0");
         builder.HasOne(uoc => uoc.User);
         builder.HasOne(uoc => uoc.Role);
 

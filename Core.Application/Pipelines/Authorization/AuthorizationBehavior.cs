@@ -22,7 +22,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
         var roleCheck = userRoleClaims
              .FirstOrDefault(
-                 userRoleClaim =>  request.Roles.Any(role => role == userRoleClaim) //userRoleClaim == GeneralOperationClaims.Admin ||
+                 userRoleClaim =>  request.Roles.Any(role =>userRoleClaim == GeneralOperationClaims.Admin || role == userRoleClaim) //userRoleClaim == GeneralOperationClaims.Admin ||
              );
      bool isNotMatchedAUserRoleClaimWithRequestRoles = roleCheck != null;
         if (!isNotMatchedAUserRoleClaimWithRequestRoles)

@@ -1,5 +1,7 @@
-﻿using Application.Features.UserFeatures.Users.Rules;
+﻿using Application.Features.UserFeatures.Users.Constants;
+using Application.Features.UserFeatures.Users.Rules;
 using Application.Services.AuthService;
+using Core.Localization;
 using Core.Security.Hashing;
 using Core.Security.Jwt;
 
@@ -12,15 +14,18 @@ public class UpdateUserFromAuth : IRequestHandler<UpdateUserFromAuthCommand, IDa
     private readonly UserRules _userRules;
     private readonly IAuthService _authService;
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+    private readonly ILocalizationService _localizationService;
     public UpdateUserFromAuth(
         UserRules userBusinessRules,
         IAuthService authService
 ,
-        IUnitOfWorkAsync unitOfWorkAsync)
+        IUnitOfWorkAsync unitOfWorkAsync,
+        ILocalizationService localizationService)
     {
         _userRules = userBusinessRules;
         _authService = authService;
         _unitOfWorkAsync = unitOfWorkAsync;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<UpdatedUserFromAuthResponse>> Handle(
@@ -53,12 +58,13 @@ public class UpdateUserFromAuth : IRequestHandler<UpdateUserFromAuthCommand, IDa
 
         UpdatedUserFromAuthResponse response = updatedUser.Adapt<UpdatedUserFromAuthResponse>();
         response.AccessToken = await _authService.CreateAccessToken(user!);
-        var result = new SuccessDataResult<UpdatedUserFromAuthResponse>(response);
+        string message = await _localizationService.GetLocalizedAsync(UsersMessages.SuccessUpdated, UsersMessages.SectionName);
+        var result = new SuccessDataResult<UpdatedUserFromAuthResponse>(response, message);
         return result;
     }
 }
 
-public partial class UpdateUserFromAuthCommand : IRequest<IDataResult<UpdatedUserFromAuthResponse>>
+public class UpdateUserFromAuthCommand : IRequest<IDataResult<UpdatedUserFromAuthResponse>>
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class mg5 : Migration
+    public partial class mg1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,12 +63,12 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true),
-                    IsDelete = table.Column<bool>(type: "bit", nullable: true),
-                    OrderNo = table.Column<short>(type: "smallint", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
+                    OrderNo = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -82,12 +82,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true),
-                    IsDelete = table.Column<bool>(type: "bit", nullable: true),
-                    OrderNo = table.Column<short>(type: "smallint", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
+                    OrderNo = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -106,12 +106,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true),
-                    IsDelete = table.Column<bool>(type: "bit", nullable: true),
-                    OrderNo = table.Column<short>(type: "smallint", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
+                    OrderNo = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExpiresDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -139,12 +139,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()"),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true),
-                    IsDelete = table.Column<bool>(type: "bit", nullable: true),
-                    OrderNo = table.Column<short>(type: "smallint", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: true, defaultValue: false),
+                    OrderNo = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -170,45 +170,45 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Roles",
-                columns: new[] { "Id", "CreatedDate", "DeletedDate", "IsActive", "IsDelete", "Name", "OrderNo", "UpdatedDate" },
+                columns: new[] { "Id", "DeletedDate", "Name", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Admin", (short)0, null },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Auth.Admin", (short)0, null },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Auth.Read", (short)0, null },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Auth.Write", (short)0, null },
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Auth.RevokeToken", (short)0, null },
-                    { 6, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Admin", (short)0, null },
-                    { 7, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Read", (short)0, null },
-                    { 8, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Write", (short)0, null },
-                    { 9, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Create", (short)0, null },
-                    { 10, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Update", (short)0, null },
-                    { 11, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Roles.Delete", (short)0, null },
-                    { 12, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Admin", (short)0, null },
-                    { 13, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Read", (short)0, null },
-                    { 14, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Write", (short)0, null },
-                    { 15, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Create", (short)0, null },
-                    { 16, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Update", (short)0, null },
-                    { 17, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "UserRoles.Delete", (short)0, null },
-                    { 18, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Admin", (short)0, null },
-                    { 19, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Read", (short)0, null },
-                    { 20, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Write", (short)0, null },
-                    { 21, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Create", (short)0, null },
-                    { 22, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Update", (short)0, null },
-                    { 23, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, "Users.Delete", (short)0, null }
+                    { 1, null, "Admin", null },
+                    { 2, null, "Auth.Admin", null },
+                    { 3, null, "Auth.Read", null },
+                    { 4, null, "Auth.Write", null },
+                    { 5, null, "Auth.RevokeToken", null },
+                    { 6, null, "Roles.Admin", null },
+                    { 7, null, "Roles.Read", null },
+                    { 8, null, "Roles.Write", null },
+                    { 9, null, "Roles.Create", null },
+                    { 10, null, "Roles.Update", null },
+                    { 11, null, "Roles.Delete", null },
+                    { 12, null, "UserRoles.Admin", null },
+                    { 13, null, "UserRoles.Read", null },
+                    { 14, null, "UserRoles.Write", null },
+                    { 15, null, "UserRoles.Create", null },
+                    { 16, null, "UserRoles.Update", null },
+                    { 17, null, "UserRoles.Delete", null },
+                    { 18, null, "Users.Admin", null },
+                    { 19, null, "Users.Read", null },
+                    { 20, null, "Users.Write", null },
+                    { 21, null, "Users.Create", null },
+                    { 22, null, "Users.Update", null },
+                    { 23, null, "Users.Delete", null }
                 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Users",
-                columns: new[] { "Id", "AuthenticatorType", "CreatedDate", "DeletedDate", "Email", "FirstName", "IsActive", "IsDelete", "LastName", "OrderNo", "PasswordHash", "PasswordSalt", "UpdatedDate" },
-                values: new object[] { new Guid("58400c16-f3c6-4089-8b9b-38d0e6d3f2bd"), 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "postakutusu18@hotmail.com", "", null, null, "", (short)0, new byte[] { 44, 245, 39, 200, 255, 78, 235, 175, 131, 194, 25, 90, 212, 186, 142, 187, 236, 81, 248, 243, 35, 230, 243, 189, 21, 234, 226, 196, 122, 34, 50, 154, 101, 158, 215, 106, 200, 174, 45, 193, 68, 24, 130, 76, 232, 159, 229, 195, 104, 234, 128, 120, 0, 100, 206, 47, 87, 71, 23, 179, 49, 166, 232, 64 }, new byte[] { 59, 172, 30, 144, 22, 75, 60, 245, 122, 57, 101, 17, 89, 194, 35, 225, 2, 199, 57, 205, 225, 142, 81, 168, 75, 63, 96, 200, 113, 44, 134, 32, 163, 37, 158, 147, 59, 213, 48, 170, 214, 159, 70, 59, 176, 232, 199, 90, 206, 134, 170, 95, 38, 162, 56, 30, 137, 133, 184, 115, 172, 164, 242, 14, 82, 175, 220, 202, 200, 217, 163, 76, 157, 247, 73, 253, 221, 96, 154, 76, 67, 54, 179, 79, 142, 124, 144, 86, 176, 42, 249, 231, 255, 194, 91, 129, 201, 55, 46, 204, 220, 215, 10, 132, 196, 23, 227, 165, 118, 25, 232, 133, 249, 254, 0, 184, 127, 225, 189, 107, 165, 153, 186, 73, 248, 28, 196, 10 }, null });
+                columns: new[] { "Id", "AuthenticatorType", "DeletedDate", "Email", "FirstName", "IsActive", "IsDelete", "LastName", "PasswordHash", "PasswordSalt", "UpdatedDate" },
+                values: new object[] { new Guid("412d1e96-3ddb-4f42-844b-ca0affe5e1ea"), 1, null, "postakutusu18@hotmail.com", "Selçuk", true, false, "KARAAĞAÇ", new byte[] { 118, 204, 64, 68, 212, 238, 239, 241, 222, 216, 190, 36, 142, 28, 13, 219, 37, 13, 213, 79, 196, 227, 118, 137, 153, 125, 199, 232, 156, 69, 182, 122, 255, 192, 98, 37, 213, 118, 210, 46, 23, 70, 135, 76, 68, 72, 99, 216, 202, 72, 20, 139, 174, 46, 228, 244, 166, 206, 159, 178, 208, 164, 43, 163 }, new byte[] { 0, 51, 225, 113, 205, 160, 242, 0, 44, 217, 146, 111, 221, 255, 168, 169, 18, 23, 179, 2, 95, 177, 36, 241, 199, 40, 178, 182, 215, 187, 147, 244, 145, 150, 50, 133, 145, 175, 96, 197, 129, 246, 150, 4, 255, 59, 222, 98, 68, 57, 160, 43, 52, 32, 27, 67, 138, 227, 217, 64, 240, 1, 200, 199, 71, 22, 198, 72, 107, 113, 16, 180, 157, 241, 64, 86, 195, 204, 109, 197, 125, 154, 33, 87, 229, 155, 117, 14, 37, 179, 130, 70, 184, 52, 211, 75, 141, 192, 252, 252, 109, 73, 21, 89, 207, 8, 89, 159, 74, 219, 64, 38, 207, 196, 121, 38, 200, 119, 63, 8, 12, 129, 255, 66, 224, 218, 157, 60 }, null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "UserRoles",
-                columns: new[] { "Id", "CreatedDate", "DeletedDate", "IsActive", "IsDelete", "OrderNo", "RoleId", "UpdatedDate", "UserId" },
-                values: new object[] { new Guid("0d6564c1-fb8f-4259-b536-1cbd3c6c8c3f"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, (short)0, 1, null, new Guid("58400c16-f3c6-4089-8b9b-38d0e6d3f2bd") });
+                columns: new[] { "Id", "DeletedDate", "RoleId", "UpdatedDate", "UserId" },
+                values: new object[] { new Guid("f46cda44-f7c0-4a63-8183-02c94a90ef2c"), null, 1, null, new Guid("412d1e96-3ddb-4f42-844b-ca0affe5e1ea") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExampleEntities_IsDelete",

@@ -3,17 +3,19 @@ using Core.Application.Dtos;
 
 namespace Application.Features.UserRoles.Queries.GetList;
 
-    public class GetListUserRole
+public class GetListUserRole
         : IRequestHandler<GetListUserRoleQuery,IDataResult<GetListResponse<GetListUserRoleListResponse>>>
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+    private readonly ILocalizationService _localizationService;
 
-        public GetListUserRole(IUnitOfWorkAsync unitOfWorkAsync)
-        {
-            _unitOfWorkAsync = unitOfWorkAsync;
-        }
+    public GetListUserRole(IUnitOfWorkAsync unitOfWorkAsync, ILocalizationService localizationService)
+    {
+        _unitOfWorkAsync = unitOfWorkAsync;
+        _localizationService = localizationService;
+    }
 
-        public async Task<IDataResult<GetListResponse<GetListUserRoleListResponse>>> Handle(
+    public async Task<IDataResult<GetListResponse<GetListUserRoleListResponse>>> Handle(
             GetListUserRoleQuery request,
             CancellationToken cancellationToken
         )
@@ -25,12 +27,13 @@ namespace Application.Features.UserRoles.Queries.GetList;
             );
 
             var mappedUserRoleListModel = userRoles.Adapt<GetListResponse<GetListUserRoleListResponse>>();
-            var result = new SuccessDataResult<GetListResponse<GetListUserRoleListResponse>>( mappedUserRoleListModel );
+        string message = await _localizationService.GetLocalizedAsync(UserRolesMessages.SuccessList, UserRolesMessages.SectionName);
+        var result = new SuccessDataResult<GetListResponse<GetListUserRoleListResponse>>( mappedUserRoleListModel,message);
             return result;
         }
     }
 
-public record GetListUserRoleQuery(PageRequest PageRequest) : IRequest<IDataResult<GetListResponse<GetListUserRoleListResponse>>>, ISecuredRequest
+public record GetListUserRoleQuery(PageRequest PageRequest) : IRequest<IDataResult<GetListResponse<GetListUserRoleListResponse>>>//, ISecuredRequest
 {
     public string[] Roles => new[] { UserRoleOperationClaims.ReadRole };
 

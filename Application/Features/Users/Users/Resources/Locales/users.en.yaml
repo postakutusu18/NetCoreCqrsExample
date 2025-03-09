@@ -1,3 +1,8 @@
 ﻿UserDontExists: "User don't exists."
 UserMailAlreadyExists: "User mail already exists."
 PasswordDontMatch: "Password don't match."
+SuccessRecord: "Record was brought."
+SuccessList: "Records listed"
+SuccessInserted: "Record added"
+SuccessDeleted: "Record deleted"
+SuccessUpdated: "Record updated"
