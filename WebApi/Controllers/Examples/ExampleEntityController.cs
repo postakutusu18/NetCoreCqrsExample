@@ -81,5 +81,24 @@ public class ExampleEntityController : BaseController
         var result = await Mediator.Send(updateCheck);
         return Ok(result);
     }
-   
+    [HttpGet("AnyExampleEntity/{Id}")]
+    public async Task<IActionResult> AnyExampleEntity([FromRoute] AnyExampleEntityQuery anyExampleEntity)
+    {
+        var result = await Mediator.Send(anyExampleEntity);
+        return Ok(result);
+    }
+
+    [HttpGet("GetCountExampleEntity")]
+    public async Task<IActionResult> GetCountExampleEntity()
+    {
+        var result = await Mediator.Send(new GetCountExampleEntityQuery());
+        return Ok(result);
+    }
+
+    [HttpPost("DeleteSqlExampleEntity")]
+    public async Task<IActionResult> DeleteSqlExampleEntity([FromBody] DeleteSqlExampleEntityCommand deleteSqlExample)
+    {
+        var result = await Mediator.Send(deleteSqlExample);
+        return Ok(result);
+    }
 }

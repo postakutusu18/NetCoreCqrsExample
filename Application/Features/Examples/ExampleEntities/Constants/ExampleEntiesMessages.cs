@@ -14,5 +14,8 @@ public static class ExampleEntiesMessages
     public const string SuccessUpdated = "SuccessUpdated";
 
     public const string AuthorizedUser = "AuthorizedUser";
+    public const string RecordExist = "RecordExist";
+    public const string ErrorDeleted = "ErrorDeleted";
+
 
 }

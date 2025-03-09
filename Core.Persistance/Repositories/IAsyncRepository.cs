@@ -28,4 +28,8 @@ public interface IAsyncRepository<TEntity, TEntityId> : IQuery<TEntity> where TE
 
     Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false, CancellationToken cancellationToken = default(CancellationToken));
     Task<PagingResult<TEntity>> GetListAjaxAsync(DataTableAjaxDto globalFilter, Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProporties);
+
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null);
+    Task<int> DeleteSqlRawAsync(string query);
+
 }

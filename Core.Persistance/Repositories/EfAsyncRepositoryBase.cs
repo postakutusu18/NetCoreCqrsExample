@@ -420,4 +420,14 @@ public class EfAsyncRepositoryBase<TEntity, TEntityId> : IAsyncRepository<TEntit
             await query.Skip(globalFilter.First).Take(globalFilter.Rows).ToListAsync();
         return new PagingResult<TEntity>(data, totalCount);
     }
+
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null)
+    {
+        return await _dbContext.Set<TEntity>().CountAsync(predicate);
+    }
+
+    public async Task<int> DeleteSqlRawAsync(string query)
+    {
+        return await _dbContext.Database.ExecuteSqlRawAsync(query);
+    }
 }
