@@ -1,5 +1,6 @@
 ﻿using Application.Services.AuthService;
 using Application.Services.UserService;
+using Core.Application.Pipelines.Performance;
 using Core.Application.Pipelines.Transaction;
 using Core.Application.Pipelines.Validation;
 using Core.CrossCuttingConcerns.Logging.Serilog.Abstraction;
@@ -35,7 +36,7 @@ public static class ApplicationServiceRegistration
             configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
             configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
             configuration.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
-            //    configuration.AddOpenBehavior(typeof(PerformanceBehavior<,>));
+            //configuration.AddOpenBehavior(typeof(PerformanceBehavior<,>));
         });
         //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 

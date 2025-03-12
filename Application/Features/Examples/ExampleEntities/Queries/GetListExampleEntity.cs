@@ -1,4 +1,7 @@
-﻿namespace Application.Features.Examples.ExampleEntities.Queries;
+﻿using Core.Application.Pipelines.Performance;
+using MediatR;
+
+namespace Application.Features.Examples.ExampleEntities.Queries;
 
 public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, IDataResult<GetListResponse<GetListExampleEntityResponse>>>
 {
@@ -27,13 +30,15 @@ public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, I
 
 }
 
-public class GetListExampleEntityQuery : IRequest<IDataResult<GetListResponse<GetListExampleEntityResponse>>>//, ICachableRequest,ISecuredRequest
+public class GetListExampleEntityQuery : IRequest<IDataResult<GetListResponse<GetListExampleEntityResponse>>>,ICachableRequest, IIntervalRequest //, ICachableRequest,ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
     public string[] Roles => new[] { "Write", "Add" };
     public bool BypassCache => false;
-    public string CacheKey => $"GetListExampleEntitys({PageRequest.PageIndex},{PageRequest.PageSize})";
-    public string CacheGroupKey => "GetAllExampleEntitys";
+    public string CacheKey => $"GetAllExampleEntities({PageRequest.PageIndex},{PageRequest.PageSize})";
+    public string CacheGroupKey => "GetAllExampleEntities";
     public TimeSpan? SlidingExpiration { get; }
+
+    public int Interval => 5;
 }
 public record GetListExampleEntityResponse(Guid Id, string Name) { }

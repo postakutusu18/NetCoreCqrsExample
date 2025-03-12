@@ -1,11 +1,14 @@
 using Application;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
+using Core.CrossCuttingConcerns.Logging.Serilog;
+using Core.CrossCuttingConcerns.Logging.Serilog.Logger;
 using Core.ElasticSearch.Models;
 using Core.Localization;
 using Core.Mailing;
 using Core.Security.Jwt;
 using Persistence;
+using System.Configuration;
 using WebApi;
 using WebApi.ServiceExtensions;
 
@@ -31,16 +34,18 @@ builder.Services.AddMemoryCache();
 //builder.Services.AddStackExchangeRedisCache(options =>
 //{
 //    options.Configuration = "localhost:6379";
-//    options.InstanceName = "mySchema:"; 
+//    options.InstanceName = "mySchema:";
 //});
 builder.Services.AddSingleton<ICacheManager,MemoryCacheManager>();
 //builder.Services.AddSingleton<ICacheManager, RedisCacheManager>();
-builder.Services.AddCors(opt =>
-    opt.AddDefaultPolicy(p =>
-    {
-        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    })
-);
+builder.Services.AddSingleton<SeriLoggerServiceBase, SeriLogFileLogger>();
+
+//builder.Services.AddCors(opt =>
+//    opt.AddDefaultPolicy(p =>
+//    {
+//        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+//    })
+//);
 //builder.Services.AddPipelineExtensions();
 
 builder.Services.AddSwaggerExtension();
@@ -54,7 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsProduction())
+//if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
 
 
