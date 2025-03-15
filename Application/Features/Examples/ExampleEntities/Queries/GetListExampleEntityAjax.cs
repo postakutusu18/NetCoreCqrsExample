@@ -33,8 +33,11 @@ public class GetListExampleEntityAjax : IRequestHandler<GetListAjaxExampleEntity
 
 }
 
-public class GetListAjaxExampleEntityQuery : IRequest<IDataResult<PagingResult<GetListAjaxExampleEntityResponse>>>
+public class GetListAjaxExampleEntityQuery : IRequest<IDataResult<PagingResult<GetListAjaxExampleEntityResponse>>>,
+    ISecuredRequest
 {
     public DataTableAjaxDto PageRequest { get; set; }
+
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];
 }
 public record GetListAjaxExampleEntityResponse(Guid Id, string Name) { }

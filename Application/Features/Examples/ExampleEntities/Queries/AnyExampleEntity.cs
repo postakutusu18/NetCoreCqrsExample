@@ -19,7 +19,13 @@ public class AnyExampleEntity : IRequestHandler<AnyExampleEntityQuery, IDataResu
     }
 }
 
-public record AnyExampleEntityQuery(Guid Id) : IRequest<IDataResult<AnyExampleEntityResponse>>;
+public record AnyExampleEntityQuery(Guid Id) :
+    IRequest<IDataResult<AnyExampleEntityResponse>>,
+    ISecuredRequest
+{
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin,ExampleEntiesOperationClaims.Read];
+}
+
 public record AnyExampleEntityResponse(bool IsExist);
 
 

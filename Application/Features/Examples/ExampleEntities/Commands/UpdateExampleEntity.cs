@@ -28,5 +28,11 @@ public class UpdateExampleEntity : IRequestHandler<UpdateExampleEntityCommand, I
     }
 }
 
-public record UpdateExampleEntityCommand(Guid Id, string Name) : IRequest<IDataResult<UpdatedExampleEntityResponse>>;
+public record UpdateExampleEntityCommand(Guid Id, string Name) :
+    IRequest<IDataResult<UpdatedExampleEntityResponse>>, ISecuredRequest
+{
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Update];
+
+}
+
 public record UpdatedExampleEntityResponse(Guid Id, string name) : IResponse { }

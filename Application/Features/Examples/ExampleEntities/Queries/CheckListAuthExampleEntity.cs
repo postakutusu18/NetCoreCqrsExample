@@ -16,6 +16,6 @@ public class CheckListAuthExampleEntity : IRequestHandler<CheckListAuthExampleEn
 
 public record CheckListAuthExampleEntityQuery() : IRequest<IResult>, ISecuredRequest
 {
-    public string[] Roles => [ExampleEntiesOperationClaims.Read];
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];
 }
 

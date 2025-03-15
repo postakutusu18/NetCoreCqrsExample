@@ -25,7 +25,9 @@ public class CreateRangeExampleEntity : IRequestHandler<CreateRangeExampleEntity
     }
 }
 
-public class CreateRangeExampleEntityCommand : IRequest<IDataResult<bool>>, ICacheRemoverRequest, ILoggableRequest
+public class CreateRangeExampleEntityCommand : 
+    IRequest<IDataResult<bool>>,
+    ICacheRemoverRequest, ILoggableRequest, ISecuredRequest
 {
     public List<string> Names { get; set; }
     public CreateRangeExampleEntityCommand(List<string> names)
@@ -36,5 +38,7 @@ public class CreateRangeExampleEntityCommand : IRequest<IDataResult<bool>>, ICac
     public bool BypassCache { get; }
     public string? CacheKey { get; }
     public string CacheGroupKey => "GetAllExampleEntities";
+
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Add];
 }
 public record CreatedRangeExampleEntityResponse(Guid Id, string Name) : IResponse { }

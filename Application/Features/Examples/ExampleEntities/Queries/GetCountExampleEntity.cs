@@ -16,6 +16,11 @@ public class GetCountExampleEntity : IRequestHandler<GetCountExampleEntityQuery,
         return new SuccessDataResult<GetCountExampleEntityResponse>(new GetCountExampleEntityResponse(result), message);
     }
 }
-public class GetCountExampleEntityQuery : IRequest<IDataResult<GetCountExampleEntityResponse>> { }
+public class GetCountExampleEntityQuery : IRequest<IDataResult<GetCountExampleEntityResponse>>,
+    ISecuredRequest
+{
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];
+}
+
 public record GetCountExampleEntityResponse(int Count);
 

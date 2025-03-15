@@ -2,40 +2,52 @@
 using Core.CrossCuttingConcerns.Logging.Serilog.Abstraction;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Core.Application.Pipelines.Logging;
 
 
-public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>, ILoggableRequest
+public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>, ILoggableRequest
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
 
-    private readonly ILogger _logger;
-
-    public LoggingBehavior(ILogger logger, IHttpContextAccessor httpContextAccessor)
+    public LoggingBehavior(
+        ILogger<LoggingBehavior<TRequest, TResponse>> logger,
+        IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
-        List<LogParameter> parameters = new List<LogParameter>(1)
+        var parameters = new List<LogParameter>
         {
             new LogParameter
             {
                 Type = request.GetType().Name,
-                Value = request
+                Value = JsonConvert.SerializeObject(request) // Parametre değerlerini JSON formatında logla
             }
         };
-        LogDetail value = new LogDetail
+
+        var user = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "Anonymous";
+
+        var logDetail = new LogDetail
         {
-            MethodName = next.Method.Name,
+            MethodName = typeof(TRequest).Name,
             Parameters = parameters,
-            User = (_httpContextAccessor.HttpContext.User.Identity?.Name ?? "?")
+            User = user
         };
-        _logger.Information(JsonConvert.SerializeObject(value));
+
+        _logger.LogInformation(JsonConvert.SerializeObject(logDetail)); // Log mesajını düzgün şekilde yazdır
+
         return await next();
     }
 }

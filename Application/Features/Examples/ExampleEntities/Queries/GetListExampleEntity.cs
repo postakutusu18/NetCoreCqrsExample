@@ -28,10 +28,12 @@ public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, I
 
 }
 
-public class GetListExampleEntityQuery : IRequest<IDataResult<GetListResponse<GetListExampleEntityResponse>>>,ICachableRequest, IIntervalRequest //, ICachableRequest,ISecuredRequest
+public class GetListExampleEntityQuery : 
+    IRequest<IDataResult<GetListResponse<GetListExampleEntityResponse>>>,
+    ICachableRequest, IIntervalRequest ,ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
-    public string[] Roles => new[] { "Write", "Add" };
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];
     public bool BypassCache => false;
     public string CacheKey => $"GetAllExampleEntities({PageRequest.PageIndex},{PageRequest.PageSize})";
     public string CacheGroupKey => "GetAllExampleEntities";

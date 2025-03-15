@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Examples.ExampleEntities.Queries;
+﻿using Application.Features.Examples.ExampleEntities.Constants;
+
+namespace Application.Features.Examples.ExampleEntities.Queries;
 
 
 public class CheckAddAuthExampleEntity : IRequestHandler<CheckAddAuthExampleEntityQuery, IResult>
@@ -18,5 +20,5 @@ public class CheckAddAuthExampleEntity : IRequestHandler<CheckAddAuthExampleEnti
 
 public record CheckAddAuthExampleEntityQuery : IRequest<IResult>, ISecuredRequest
 {
-    public string[] Roles => [ExampleEntiesOperationClaims.Add];
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Add];
 }

@@ -15,5 +15,5 @@ public class CheckUpdateAuthExampleEntity : IRequestHandler<CheckUpdateAuthExamp
 }
 public record CheckUpdateAuthExampleEntityQuery() : IRequest<IResult>, ISecuredRequest
 {
-    public string[] Roles => [ExampleEntiesOperationClaims.Update];
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Update];
 }

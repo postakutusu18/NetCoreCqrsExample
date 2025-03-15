@@ -24,4 +24,7 @@ public class DeleteSqlExampleEntity : IRequestHandler<DeleteSqlExampleEntityComm
     }
 }
 
-public record DeleteSqlExampleEntityCommand(string query) : IRequest<IResult>;
+public record DeleteSqlExampleEntityCommand(string query) : IRequest<IResult>, ISecuredRequest
+{
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Delete];
+}

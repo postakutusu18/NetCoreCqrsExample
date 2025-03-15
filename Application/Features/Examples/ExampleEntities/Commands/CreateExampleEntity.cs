@@ -27,10 +27,14 @@ public class CreateExampleEntity : IRequestHandler<CreateExampleEntityCommand, I
     }
 }
 
-public record CreateExampleEntityCommand(string Name) : IRequest<IDataResult<CreatedExampleEntityResponse>>, ICacheRemoverRequest, ILoggableRequest
+public record CreateExampleEntityCommand(string Name) : 
+    IRequest<IDataResult<CreatedExampleEntityResponse>>, 
+    ICacheRemoverRequest, ILoggableRequest,ISecuredRequest
 {
     public bool BypassCache { get; }
     public string? CacheKey { get; }
     public string CacheGroupKey => "GetAllExampleEntities";
+
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Add];
 }
 public record CreatedExampleEntityResponse(Guid Id, string Name) : IResponse { }

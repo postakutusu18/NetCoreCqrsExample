@@ -22,8 +22,11 @@ public class GetByIdExampleEntity : IRequestHandler<GetByIdExampleEntityQuery, I
         return new SuccessDataResult<GetByIdExampleEntityResponse>(response,message);
     }
 }
-public class GetByIdExampleEntityQuery : IRequest<IDataResult<GetByIdExampleEntityResponse>>
+public class GetByIdExampleEntityQuery : IRequest<IDataResult<GetByIdExampleEntityResponse>>,
+    ISecuredRequest
 {
     public Guid Id { get; set; }
+
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];
 }
 public record GetByIdExampleEntityResponse(Guid Id, string Name) { }

@@ -26,5 +26,11 @@ public class DeleteExampleEntity : IRequestHandler<DeleteExampleEntityCommand, I
     }
 }
 
-public record DeleteExampleEntityCommand(Guid Id) : IRequest<IDataResult<DeletedExampleEntityResponse>>;
+public record DeleteExampleEntityCommand(Guid Id) : IRequest<IDataResult<DeletedExampleEntityResponse>>,
+    ISecuredRequest
+{
+    public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Delete];
+
+}
+
 public record DeletedExampleEntityResponse(Guid Id) : IResponse { }
