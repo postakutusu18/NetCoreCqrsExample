@@ -1,6 +1,4 @@
-﻿
-
-namespace Application.Features.Examples.ExampleEntities.Rules;
+﻿namespace Application.Features.Examples.ExampleEntities.Rules;
 
 public class ExampleEntityRules : BaseBusinessRules
 {

@@ -1,6 +1,4 @@
-﻿using Domains.Examples;
-
-namespace Application.Features.Examples.Products.Commands;
+﻿namespace Application.Features.Examples.Products.Commands;
 
 public class UpdateProduct : IRequestHandler<UpdateProductCommand, IDataResult<UpdatedProductResponse>>
 {

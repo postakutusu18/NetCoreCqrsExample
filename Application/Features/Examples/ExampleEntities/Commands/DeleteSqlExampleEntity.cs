@@ -1,5 +1,4 @@
-﻿
-namespace Application.Features.Examples.ExampleEntities.Commands;
+﻿namespace Application.Features.Examples.ExampleEntities.Commands;
 
 
 public class DeleteSqlExampleEntity : IRequestHandler<DeleteSqlExampleEntityCommand, IResult>

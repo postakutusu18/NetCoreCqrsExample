@@ -1,6 +1,4 @@
-﻿using Core.Application.Pipelines.Performance;
-using MediatR;
-
+﻿
 namespace Application.Features.Examples.ExampleEntities.Queries;
 
 public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, IDataResult<GetListResponse<GetListExampleEntityResponse>>>

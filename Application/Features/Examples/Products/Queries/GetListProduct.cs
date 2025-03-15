@@ -4,10 +4,12 @@ public class GetListProduct : IRequestHandler<GetListProductQuery, IDataResult<G
 {
     private readonly IUnitOfWorkAsync _unitOfWorkAsync;
     private readonly ProductBusinessRules _productBusinessRules;
-    public GetListProduct(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productBusinessRules)
+    private readonly ILocalizationService _localizationService;
+    public GetListProduct(IUnitOfWorkAsync unitOfWorkAsync, ProductBusinessRules productBusinessRules, ILocalizationService localizationService)
     {
         _unitOfWorkAsync = unitOfWorkAsync;
         _productBusinessRules = productBusinessRules;
+        _localizationService = localizationService;
     }
 
     public async Task<IDataResult<GetListResponse<GetListProductResponse>>> Handle(GetListProductQuery request, CancellationToken cancellationToken)
@@ -17,7 +19,8 @@ public class GetListProduct : IRequestHandler<GetListProductQuery, IDataResult<G
                size: request.PageRequest.PageSize
            );
         var mappedProductListModel = products.Adapt<GetListResponse<GetListProductResponse>>();
-        var resultData = new SuccessDataResult<GetListResponse<GetListProductResponse>>(mappedProductListModel);
+        string message = await _localizationService.GetLocalizedAsync(ProductsMessages.SuccessRecord, ProductsMessages.SectionName);
+        var resultData = new SuccessDataResult<GetListResponse<GetListProductResponse>>(mappedProductListModel,message);
         return resultData;
     }
 

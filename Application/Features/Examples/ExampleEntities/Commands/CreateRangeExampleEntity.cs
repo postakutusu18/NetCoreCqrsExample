@@ -1,6 +1,4 @@
-﻿using Core.Localization;
-
-namespace Application.Features.Examples.ExampleEntities.Commands;
+﻿namespace Application.Features.Examples.ExampleEntities.Commands;
 
 public class CreateRangeExampleEntity : IRequestHandler<CreateRangeExampleEntityCommand, IDataResult<bool>>
 {

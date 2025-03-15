@@ -1,6 +1,5 @@
 ﻿using Application.Services.AuthService;
 using Application.Services.UserService;
-using Core.Application.Pipelines.Performance;
 using Core.Application.Pipelines.Transaction;
 using Core.Application.Pipelines.Validation;
 using Core.CrossCuttingConcerns.Logging.Serilog.Abstraction;

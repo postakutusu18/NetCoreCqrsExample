@@ -2,9 +2,18 @@
 
 public class CheckAddAuthProduct : IRequestHandler<CheckAddAuthProductQuery, IResult>
 {
-    public Task<IResult> Handle(CheckAddAuthProductQuery request, CancellationToken cancellationToken)
+    private readonly ILocalizationService _localizationService;
+
+    public CheckAddAuthProduct(ILocalizationService localizationService)
     {
-        return Task.FromResult<IResult>(new SuccessResult());
+        _localizationService = localizationService;
+    }
+
+    public async Task<IResult> Handle(CheckAddAuthProductQuery request, CancellationToken cancellationToken)
+    {
+        string message = await _localizationService.GetLocalizedAsync(ProductsMessages.AuthorizedUser, ExampleEntiesMessages.SectionName);
+        return new SuccessResult(message);
+
     }
 }
 

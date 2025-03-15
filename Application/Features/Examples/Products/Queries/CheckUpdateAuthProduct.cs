@@ -2,9 +2,17 @@
 
 public class CheckUpdateAuthProduct : IRequestHandler<CheckUpdateAuthProductQuery, IResult>
 {
-    public Task<IResult> Handle(CheckUpdateAuthProductQuery request, CancellationToken cancellationToken)
+    private readonly ILocalizationService _localizationService;
+
+    public CheckUpdateAuthProduct(ILocalizationService localizationService)
     {
-        return Task.FromResult<IResult>(new SuccessResult());
+        _localizationService = localizationService;
+    }
+   
+    public async Task<IResult> Handle(CheckUpdateAuthProductQuery request, CancellationToken cancellationToken)
+    {
+        string message = await _localizationService.GetLocalizedAsync(ProductsMessages.AuthorizedUser, ExampleEntiesMessages.SectionName);
+        return new SuccessResult(message);
     }
 }
 public record CheckUpdateAuthProductQuery() : IRequest<IResult>, ISecuredRequest
