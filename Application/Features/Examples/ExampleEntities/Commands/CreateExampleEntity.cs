@@ -1,7 +1,4 @@
-﻿using Application.Features.UserFeatures.Users.Constants;
-using Core.Localization;
-
-namespace Application.Features.Examples.ExampleEntities.Commands;
+﻿namespace Application.Features.Examples.ExampleEntities.Commands;
 
 public class CreateExampleEntity : IRequestHandler<CreateExampleEntityCommand, IDataResult<CreatedExampleEntityResponse>>
 {
@@ -20,6 +17,7 @@ public class CreateExampleEntity : IRequestHandler<CreateExampleEntityCommand, I
     {
         await _exampleEntityRules.ExampleEntityNameCanNotBeDuplicatedWhenInserted(request.Name);
         var exampleEntity = request.Adapt<ExampleEntity>();
+        //exampleEntity.Id =NewId.NextSequentialGuid();
         ExampleEntity createdExampleEntity = await _unitOfWorkAsync.ExampleEntityRepository.AddAsync(exampleEntity);
         await _unitOfWorkAsync.SaveAsync();
         CreatedExampleEntityResponse createdBrandResponse = createdExampleEntity.Adapt<CreatedExampleEntityResponse>();

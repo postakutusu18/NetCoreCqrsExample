@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Context;
 
@@ -11,9 +12,11 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MsSqlDbContext))]
-    partial class MsSqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315132859_mg5")]
+    partial class mg5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +29,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domains.Examples.ExampleEntity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("08dd63c6-ce57-f4bf-80fa-5b98d5810000"))
                         .HasColumnName("Id");
 
                     b.Property<int>("Code")
@@ -500,7 +501,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2ab2fcef-702f-4002-ae3c-913e2157b998"),
+                            Id = new Guid("f1666f92-70f5-43ba-a744-8bed67540ffe"),
                             AuthenticatorType = 1,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "postakutusu18@hotmail.com",
@@ -509,8 +510,8 @@ namespace Persistence.Migrations
                             IsDelete = false,
                             LastName = "KARAAĞAÇ",
                             OrderNo = (short)0,
-                            PasswordHash = new byte[] { 34, 9, 77, 66, 38, 140, 63, 74, 209, 9, 96, 78, 210, 199, 169, 12, 24, 239, 183, 153, 188, 210, 72, 192, 145, 229, 246, 117, 255, 209, 201, 214, 143, 56, 105, 186, 75, 51, 53, 186, 0, 83, 165, 138, 128, 248, 50, 43, 59, 6, 98, 36, 95, 52, 87, 22, 114, 197, 244, 64, 176, 206, 193, 12 },
-                            PasswordSalt = new byte[] { 86, 87, 110, 228, 253, 177, 228, 232, 56, 39, 47, 19, 148, 193, 144, 64, 68, 12, 78, 69, 41, 121, 110, 100, 48, 7, 35, 114, 85, 71, 124, 66, 236, 158, 167, 109, 158, 219, 177, 17, 108, 121, 70, 121, 198, 141, 236, 117, 165, 108, 128, 56, 78, 153, 104, 176, 251, 47, 222, 20, 58, 137, 83, 29, 82, 154, 124, 152, 120, 152, 28, 38, 2, 171, 162, 158, 55, 201, 187, 56, 28, 105, 59, 102, 103, 217, 6, 73, 49, 58, 96, 175, 71, 197, 221, 117, 236, 252, 14, 214, 224, 169, 235, 66, 144, 228, 71, 253, 197, 236, 101, 219, 63, 135, 228, 194, 148, 180, 84, 180, 74, 167, 75, 246, 233, 202, 53, 186 }
+                            PasswordHash = new byte[] { 75, 179, 36, 116, 83, 73, 226, 166, 80, 164, 242, 63, 55, 171, 39, 35, 221, 154, 48, 13, 207, 204, 141, 225, 26, 207, 177, 234, 142, 161, 193, 49, 215, 89, 252, 123, 48, 103, 20, 224, 116, 113, 148, 64, 242, 1, 51, 48, 169, 239, 94, 140, 78, 99, 245, 187, 212, 240, 215, 2, 235, 252, 43, 246 },
+                            PasswordSalt = new byte[] { 176, 152, 92, 69, 64, 9, 23, 215, 191, 53, 40, 198, 116, 247, 9, 40, 104, 89, 164, 151, 126, 211, 98, 195, 143, 88, 253, 18, 252, 116, 252, 148, 236, 148, 41, 218, 200, 4, 38, 200, 158, 56, 192, 113, 31, 191, 206, 211, 137, 22, 73, 139, 84, 49, 227, 164, 168, 215, 31, 218, 117, 20, 227, 164, 167, 50, 46, 58, 110, 130, 110, 41, 197, 67, 238, 117, 156, 142, 42, 82, 161, 85, 38, 40, 199, 234, 156, 18, 223, 81, 36, 67, 145, 212, 2, 6, 55, 198, 63, 128, 244, 184, 28, 87, 255, 59, 86, 184, 193, 235, 55, 40, 155, 187, 248, 89, 156, 71, 171, 22, 179, 74, 71, 28, 157, 203, 84, 237 }
                         });
                 });
 
@@ -572,11 +573,11 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4f229c77-ed4b-4805-bbc5-1d979b3b65ad"),
+                            Id = new Guid("2e9d7322-ac43-4876-a436-49cc445cde86"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderNo = (short)0,
                             RoleId = 1,
-                            UserId = new Guid("2ab2fcef-702f-4002-ae3c-913e2157b998")
+                            UserId = new Guid("f1666f92-70f5-43ba-a744-8bed67540ffe")
                         });
                 });
 
