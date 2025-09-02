@@ -30,7 +30,7 @@ public class GetListExampleEntity : IRequestHandler<GetListExampleEntityQuery, I
 
 public class GetListExampleEntityQuery : 
     IRequest<IDataResult<GetListResponse<GetListExampleEntityResponse>>>,
-    ICachableRequest, IIntervalRequest ,ISecuredRequest
+    ICachableRequest, IIntervalRequest ,ISecuredRequest,ILoggableRequest
 {
     public PageRequest PageRequest { get; set; }
     public string[] Roles => [ExampleEntiesOperationClaims.Admin, ExampleEntiesOperationClaims.Read];

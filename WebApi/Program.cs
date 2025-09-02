@@ -8,8 +8,8 @@ using Core.Localization;
 using Core.Mailing;
 using Core.Security.Jwt;
 using Persistence;
-using System.Configuration;
 using WebApi;
+using WebApi.Middlewares;
 using WebApi.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);

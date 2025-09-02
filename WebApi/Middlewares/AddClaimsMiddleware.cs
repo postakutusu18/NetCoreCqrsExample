@@ -15,7 +15,7 @@ public class AddClaimsMiddleware
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, "TestUser"),
-            new Claim(ClaimTypes.Role, "Write")
+            new Claim(ClaimTypes.Role, "Admin")
         };
 
         var identity = new ClaimsIdentity(claims, "TestAuthType");

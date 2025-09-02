@@ -3,20 +3,21 @@ using Core.CrossCuttingConcerns.Logging.Serilog;
 using Core.CrossCuttingConcerns.Logging;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
+using Core.CrossCuttingConcerns.Logging.Serilog.Abstraction;
 
 namespace Core.CrossCuttingConcerns.Exceptions;
 public class ExceptionMiddleware
 {
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly HttpExceptionHandler _httpExceptionHandler;
-    private readonly SeriLoggerServiceBase _loggerService;
+    private readonly ILogger _logger;
     private readonly RequestDelegate _next;
 
-    public ExceptionMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, SeriLoggerServiceBase loggerService)
+    public ExceptionMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, ILogger logger)
     {
         _next = next;
         _contextAccessor = contextAccessor;
-        _loggerService = loggerService;
+        _logger = logger;
         _httpExceptionHandler = new HttpExceptionHandler();
     }
 
@@ -45,18 +46,18 @@ public class ExceptionMiddleware
         List<LogParameter> logParameters =
             new()
             {
-                new LogParameter { Type = context.GetType().Name, Value = exception.ToString() }
+                new LogParameter { Type = context.GetType().Name, Value = exception.ToString(),Name =context.Request.Method }
             };
 
         LogDetail logDetail =
             new()
             {
-                MethodName = _next.Method.Name,
+                MethodName = context.Request.Path,
                 Parameters = logParameters,
                 User = _contextAccessor.HttpContext?.User.Identity?.Name ?? "?"
             };
 
-        _loggerService.Information(JsonSerializer.Serialize(logDetail));
+        _logger.Error(JsonSerializer.Serialize(logDetail));
         return Task.CompletedTask;
     }
 }
